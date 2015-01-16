@@ -1,6 +1,5 @@
 require 'rails_helper'
 describe UsersController do
-   let(:user) { create :user }
 
    describe "GET #new" do
 
@@ -18,7 +17,7 @@ describe UsersController do
 
    describe "POST #create" do
      
-     context "with valid atributes" do
+     context "with valid attributes" do
       
        it "creates a contact with the corret information" do
         expect {
@@ -28,5 +27,13 @@ describe UsersController do
 
      end
 
+     context "with invalid atributes" do
+      
+      it "does not save new user on database" do
+        expect {
+            post :create, user: attributes_for(:invalid_user)
+         }.to_not change(User, :count)
+      end
+     end
    end
 end
