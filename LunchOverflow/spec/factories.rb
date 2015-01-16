@@ -9,6 +9,6 @@ FactoryGirl.define do
   factory :invalid_user, class:Hash do
     user_name nil
     email nil
-    password nil
+    password { Faker::Internet.password } 
   end
 end
