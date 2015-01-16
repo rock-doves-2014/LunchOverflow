@@ -15,4 +15,16 @@ describe UsersController do
      end
 
    end
+
+   describe "POST #create" do
+     
+     context "with valid atributes" do
+      
+       id "creates a contact with the corret information"
+        post :create, user: atributes_for(:user)
+       end
+
+     end
+
+   end
 end
