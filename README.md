@@ -1,5 +1,7 @@
 # LunchOverflow
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rock-doves-2014/LunchOverflow?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 <h3>Who are we:</h3>
 <p>We are Brian Borges, Daniel Rodriguez, Kevin Kwon, and Carl Schubert.</p>
 
