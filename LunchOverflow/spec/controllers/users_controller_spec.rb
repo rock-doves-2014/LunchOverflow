@@ -2,11 +2,17 @@ require 'rails_helper'
 describe UsersController do
    let(:user) { FactoryGirl.create :user }
 
-   describe "#new" do
+   describe "GET #new" do
 
-     it "assigns the todos to User.new" do
+     it "assigns a new user to @user" do
        get :new
-       expect(assign(:user).to be_a_new(User))
+       expect(assigns(:user)).to be_a_new(User)
      end
+
+     it "renders the :new template" do
+       get :new
+       expect(response).to render_template :new
+     end
+
    end
 end
