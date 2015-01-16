@@ -20,8 +20,10 @@ describe UsersController do
      
      context "with valid atributes" do
       
-       id "creates a contact with the corret information"
-        post :create, user: atributes_for(:user)
+       it "creates a contact with the corret information" do
+        expect {
+          post :create, user: attributes_for(:user)
+        }.to change(User, :count).by(1)
        end
 
      end
