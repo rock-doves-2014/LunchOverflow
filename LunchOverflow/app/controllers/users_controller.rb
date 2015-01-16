@@ -9,9 +9,9 @@ class UsersController < ApplicationController
 
     if @user.authenticate(params[:user][:password]) && @user.save 
       session[:user_id] = @user.id
-      render text: 'user created'
+      redirect_to root_path
     else
-      render text: 'failed user creation'
+      redirect_to new_user_path
     end
 
   end
