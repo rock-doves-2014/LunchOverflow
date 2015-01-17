@@ -1,0 +1,945 @@
+  [1m[36m (17.9ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [1m[35m (17.3ms)[0m  CREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateUsers (20150115213756)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (4.7ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "user_name" character varying(255) NOT NULL, "email" character varying(255) NOT NULL, "pasword_digest" character varying(255) NOT NULL, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35mSQL (15.6ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150115213756"]]
+  [1m[36m (16.1ms)[0m  [1mCOMMIT[0m
+Migrating to CreatePosts (20150115213813)
+  [1m[35m (15.6ms)[0m  BEGIN
+  [1m[36m (19.6ms)[0m  [1mCREATE TABLE "posts" ("id" serial primary key, "title" character varying(255) NOT NULL, "content" character varying(255) NOT NULL, "address" character varying(255), "user_id" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150115213813"]]
+  [1m[36m (0.8ms)[0m  [1mCOMMIT[0m
+Migrating to CreateComments (20150115213824)
+  [1m[35m (15.7ms)[0m  BEGIN
+  [1m[36m (17.0ms)[0m  [1mCREATE TABLE "comments" ("id" serial primary key, "content" character varying(255) NOT NULL, "user_id" integer, "post_id" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150115213824"]]
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+Migrating to ReplacePaswordWithPasswordInUsers (20150115225322)
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.6ms)[0m  [1mALTER TABLE "users" DROP "pasword_digest"[0m
+  [1m[35m (0.3ms)[0m  ALTER TABLE "users" ADD COLUMN "password_digest" character varying(255) NOT NULL
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20150115225322"]]
+  [1m[35m (1.6ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+
+
+Started GET "/" for 127.0.0.1 at 2015-01-16 14:27:35 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/railties-4.1.8/lib/rails/templates/rails/welcome/index.html.erb (2.2ms)
+Completed 200 OK in 14ms (Views: 7.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/new" for 127.0.0.1 at 2015-01-16 14:27:43 -0500
+
+ActionController::RoutingError (No route matches [GET] "/new"):
+  actionpack (4.1.8) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.1.8) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.1.8) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.1.8) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.1.8) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.1.8) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.1.8) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.1.8) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.1.8) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.1.8) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.1.8) lib/action_dispatch/middleware/static.rb:84:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.1.8) lib/rails/engine.rb:514:in `call'
+  railties (4.1.8) lib/rails/application.rb:144:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/2.0.0/webrick/httpserver.rb:138:in `service'
+  /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/2.0.0/webrick/httpserver.rb:94:in `run'
+  /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/2.0.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.1ms)
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/routes/_route.html.erb (1.7ms)
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/routes/_table.html.erb (10.6ms)
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (57.6ms)
+
+
+Started GET "/login" for 127.0.0.1 at 2015-01-16 14:27:49 -0500
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (5.2ms)
+  Rendered layouts/_nav.erb (0.9ms)
+Completed 200 OK in 412ms (Views: 412.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-16 14:27:50 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-16 14:27:50 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-16 14:27:50 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-16 14:27:50 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-16 14:27:50 -0500
+
+
+Started GET "/users/new" for 127.0.0.1 at 2015-01-16 14:27:56 -0500
+Processing by UsersController#new as HTML
+  Rendered users/new.html.erb within layouts/application (7.9ms)
+  Rendered layouts/_nav.erb (0.9ms)
+Completed 200 OK in 71ms (Views: 61.9ms | ActiveRecord: 1.7ms)
+
+
+Started POST "/users" for 127.0.0.1 at 2015-01-16 14:28:01 -0500
+Processing by UsersController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"v2JZePdCxnE6Vhfzj1dofeCLMMePrEiFIxxPx/9Slp0=", "user"=>{"user_name"=>"a", "email"=>"a", "password"=>"[FILTERED]"}, "commit"=>"Create User"}
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mUser Exists (17.3ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."user_name" = 'a' LIMIT 1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users"  WHERE "users"."email" = 'a' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  Rendered text template (0.0ms)
+Completed 200 OK in 95ms (Views: 1.4ms | ActiveRecord: 17.9ms)
+
+
+Started GET "/login" for 127.0.0.1 at 2015-01-16 14:28:08 -0500
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (1.0ms)
+  Rendered layouts/_nav.erb (0.2ms)
+Completed 200 OK in 26ms (Views: 25.0ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/sessions" for 127.0.0.1 at 2015-01-16 14:28:11 -0500
+Processing by SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"v2JZePdCxnE6Vhfzj1dofeCLMMePrEiFIxxPx/9Slp0=", "session"=>{"user_name"=>"", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  [1m[35mUser Load (0.4ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."user_name" = '' LIMIT 1
+  Rendered text template (0.0ms)
+Completed 200 OK in 28ms (Views: 0.4ms | ActiveRecord: 0.4ms)
+  [1m[36m (2.3ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [1m[35m (5.9ms)[0m  CREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateUsers (20150115213756)
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (4.3ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "user_name" character varying(255) NOT NULL, "email" character varying(255) NOT NULL, "pasword_digest" character varying(255) NOT NULL, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150115213756"]]
+  [1m[36m (0.8ms)[0m  [1mCOMMIT[0m
+Migrating to CreatePosts (20150115213813)
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (3.6ms)[0m  [1mCREATE TABLE "posts" ("id" serial primary key, "title" character varying(255) NOT NULL, "content" character varying(255) NOT NULL, "address" character varying(255), "user_id" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150115213813"]]
+  [1m[36m (0.7ms)[0m  [1mCOMMIT[0m
+Migrating to CreateComments (20150115213824)
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (1.7ms)[0m  [1mCREATE TABLE "comments" ("id" serial primary key, "content" character varying(255) NOT NULL, "user_id" integer, "post_id" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150115213824"]]
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+Migrating to ReplacePaswordWithPasswordInUsers (20150115225322)
+  [1m[35m (15.4ms)[0m  BEGIN
+  [1m[36m (0.6ms)[0m  [1mALTER TABLE "users" DROP "pasword_digest"[0m
+  [1m[35m (0.3ms)[0m  ALTER TABLE "users" ADD COLUMN "password_digest" character varying(255) NOT NULL
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20150115225322"]]
+  [1m[35m (0.5ms)[0m  COMMIT
+Migrating to ChangeCommentContentToText (20150116195657)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.3ms)[0m  ALTER TABLE "comments" ALTER COLUMN "content" TYPE text
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20150116195657"]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to ChangePostContentToText (20150116200007)
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.5ms)[0m  [1mALTER TABLE "comments" ALTER COLUMN "content" TYPE text[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150116200007"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (2.1ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [1m[35m (1.3ms)[0m  CREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateUsers (20150115213756)
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (3.1ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "user_name" character varying(255) NOT NULL, "email" character varying(255) NOT NULL, "pasword_digest" character varying(255) NOT NULL, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150115213756"]]
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+Migrating to CreatePosts (20150115213813)
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (3.6ms)[0m  [1mCREATE TABLE "posts" ("id" serial primary key, "title" character varying(255) NOT NULL, "content" character varying(255) NOT NULL, "address" character varying(255), "user_id" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150115213813"]]
+  [1m[36m (0.7ms)[0m  [1mCOMMIT[0m
+Migrating to CreateComments (20150115213824)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (1.7ms)[0m  [1mCREATE TABLE "comments" ("id" serial primary key, "content" character varying(255) NOT NULL, "user_id" integer, "post_id" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150115213824"]]
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+Migrating to ReplacePaswordWithPasswordInUsers (20150115225322)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.7ms)[0m  [1mALTER TABLE "users" DROP "pasword_digest"[0m
+  [1m[35m (0.3ms)[0m  ALTER TABLE "users" ADD COLUMN "password_digest" character varying(255) NOT NULL
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20150115225322"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+Migrating to ChangeCommentContentToText (20150116195657)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (2.1ms)[0m  ALTER TABLE "comments" ALTER COLUMN "content" TYPE text
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20150116195657"]]
+  [1m[35m (0.5ms)[0m  COMMIT
+Migrating to ChangePostContentToText (20150116200007)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  ALTER TABLE "posts" ALTER COLUMN "content" TYPE text
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20150116200007"]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (22.9ms)[0m  [1mINSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["address", "Paucek Tunnel"], ["content", "Business-focused multi-state customer loyalty"], ["created_at", "2015-01-16 21:31:00.759491"], ["title", "Kirlin, Stiedemann and Runolfsdottir"], ["updated_at", "2015-01-16 21:31:00.759491"], ["user_id", 2]]
+  [1m[35m (0.9ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["address", "Juanita Point"], ["content", "Exclusive 24/7 leverage"], ["created_at", "2015-01-16 21:31:00.793749"], ["title", "Ward, Durgan and Weimann"], ["updated_at", "2015-01-16 21:31:00.793749"], ["user_id", 2]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["address", "Stephen Valley"], ["content", "Polarised optimal leverage"], ["created_at", "2015-01-16 21:31:00.796440"], ["title", "Metz Group"], ["updated_at", "2015-01-16 21:31:00.796440"], ["user_id", 2]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["address", "Anahi Pines"], ["content", "User-centric solution-oriented Graphical User Interface"], ["created_at", "2015-01-16 21:31:00.798510"], ["title", "Fahey-Smith"], ["updated_at", "2015-01-16 21:31:00.798510"], ["user_id", 4]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["address", "Stark Glen"], ["content", "Profound systematic array"], ["created_at", "2015-01-16 21:31:00.800627"], ["title", "Lockman-Dibbert"], ["updated_at", "2015-01-16 21:31:00.800627"], ["user_id", 2]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["address", "Pfeffer Cape"], ["content", "Re-contextualized empowering protocol"], ["created_at", "2015-01-16 21:31:00.802731"], ["title", "Bartell and Sons"], ["updated_at", "2015-01-16 21:31:00.802731"], ["user_id", 2]]
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["address", "Grant Park"], ["content", "Cross-platform interactive project"], ["created_at", "2015-01-16 21:31:00.804944"], ["title", "O'Connell-Gerhold"], ["updated_at", "2015-01-16 21:31:00.804944"], ["user_id", 4]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["address", "Kilback Pike"], ["content", "Customizable zero tolerance concept"], ["created_at", "2015-01-16 21:31:00.806798"], ["title", "Gulgowski Group"], ["updated_at", "2015-01-16 21:31:00.806798"], ["user_id", 3]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["address", "Danyka Springs"], ["content", "Profound static secured line"], ["created_at", "2015-01-16 21:31:00.808523"], ["title", "Torp-McCullough"], ["updated_at", "2015-01-16 21:31:00.808523"], ["user_id", 4]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["address", "Deborah Canyon"], ["content", "Streamlined heuristic array"], ["created_at", "2015-01-16 21:31:00.810547"], ["title", "Hessel, Grimes and Zemlak"], ["updated_at", "2015-01-16 21:31:00.810547"], ["user_id", 4]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (14.9ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Nostrum laboriosam maxime sed autem eveniet accusantium aut eligendi."], ["created_at", "2015-01-16 21:31:00.851053"], ["post_id", 7], ["updated_at", "2015-01-16 21:31:00.851053"], ["user_id", 4]]
+  [1m[35m (1.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Quod laboriosam occaecati repellat magnam odit odio."], ["created_at", "2015-01-16 21:31:00.869997"], ["post_id", 5], ["updated_at", "2015-01-16 21:31:00.869997"], ["user_id", 5]]
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Optio dolor et iure quia illo provident vero assumenda."], ["created_at", "2015-01-16 21:31:00.872348"], ["post_id", 5], ["updated_at", "2015-01-16 21:31:00.872348"], ["user_id", 3]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Consectetur mollitia dolore in rerum soluta enim est."], ["created_at", "2015-01-16 21:31:00.874144"], ["post_id", 7], ["updated_at", "2015-01-16 21:31:00.874144"], ["user_id", 5]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Eligendi minima non officiis numquam maiores."], ["created_at", "2015-01-16 21:31:00.875945"], ["post_id", 2], ["updated_at", "2015-01-16 21:31:00.875945"], ["user_id", 5]]
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Magni ut qui totam non."], ["created_at", "2015-01-16 21:31:00.878354"], ["post_id", 3], ["updated_at", "2015-01-16 21:31:00.878354"], ["user_id", 3]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Cupiditate non sit et."], ["created_at", "2015-01-16 21:31:00.880204"], ["post_id", 9], ["updated_at", "2015-01-16 21:31:00.880204"], ["user_id", 1]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Voluptatem assumenda rerum et et."], ["created_at", "2015-01-16 21:31:00.881961"], ["post_id", 4], ["updated_at", "2015-01-16 21:31:00.881961"], ["user_id", 4]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Quia aliquid culpa vitae."], ["created_at", "2015-01-16 21:31:00.883737"], ["post_id", 4], ["updated_at", "2015-01-16 21:31:00.883737"], ["user_id", 4]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Labore id dolor hic corrupti."], ["created_at", "2015-01-16 21:31:00.885468"], ["post_id", 10], ["updated_at", "2015-01-16 21:31:00.885468"], ["user_id", 4]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Ducimus itaque magnam error cumque qui culpa."], ["created_at", "2015-01-16 21:31:00.887277"], ["post_id", 10], ["updated_at", "2015-01-16 21:31:00.887277"], ["user_id", 1]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Soluta eos aspernatur quae quaerat labore."], ["created_at", "2015-01-16 21:31:00.888972"], ["post_id", 1], ["updated_at", "2015-01-16 21:31:00.888972"], ["user_id", 1]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Est nobis harum molestiae et."], ["created_at", "2015-01-16 21:31:00.890482"], ["post_id", 3], ["updated_at", "2015-01-16 21:31:00.890482"], ["user_id", 3]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Rerum qui et ratione perspiciatis sunt."], ["created_at", "2015-01-16 21:31:00.891942"], ["post_id", 7], ["updated_at", "2015-01-16 21:31:00.891942"], ["user_id", 3]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Minus consequuntur inventore omnis quae."], ["created_at", "2015-01-16 21:31:00.893440"], ["post_id", 2], ["updated_at", "2015-01-16 21:31:00.893440"], ["user_id", 2]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Laboriosam ipsa sequi consequatur consequatur aliquid et ut voluptatem."], ["created_at", "2015-01-16 21:31:00.894983"], ["post_id", 6], ["updated_at", "2015-01-16 21:31:00.894983"], ["user_id", 2]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Distinctio provident occaecati consequatur aliquid."], ["created_at", "2015-01-16 21:31:00.896487"], ["post_id", 4], ["updated_at", "2015-01-16 21:31:00.896487"], ["user_id", 2]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Odit et nihil ut corporis."], ["created_at", "2015-01-16 21:31:00.897959"], ["post_id", 2], ["updated_at", "2015-01-16 21:31:00.897959"], ["user_id", 5]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Ducimus autem et at ab provident corrupti."], ["created_at", "2015-01-16 21:31:00.899355"], ["post_id", 7], ["updated_at", "2015-01-16 21:31:00.899355"], ["user_id", 2]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Nihil itaque eveniet velit et cumque aliquam sunt adipisci."], ["created_at", "2015-01-16 21:31:00.900679"], ["post_id", 4], ["updated_at", "2015-01-16 21:31:00.900679"], ["user_id", 5]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Laboriosam debitis magni laudantium."], ["created_at", "2015-01-16 21:31:00.901938"], ["post_id", 3], ["updated_at", "2015-01-16 21:31:00.901938"], ["user_id", 5]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Minus nesciunt fugit exercitationem doloremque amet officia."], ["created_at", "2015-01-16 21:31:00.903176"], ["post_id", 4], ["updated_at", "2015-01-16 21:31:00.903176"], ["user_id", 4]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Et in quod asperiores delectus."], ["created_at", "2015-01-16 21:31:00.904577"], ["post_id", 1], ["updated_at", "2015-01-16 21:31:00.904577"], ["user_id", 5]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Nam dicta voluptatem est."], ["created_at", "2015-01-16 21:31:00.905811"], ["post_id", 5], ["updated_at", "2015-01-16 21:31:00.905811"], ["user_id", 1]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Libero tenetur nisi excepturi magnam dolorum sed dolorem."], ["created_at", "2015-01-16 21:31:00.907104"], ["post_id", 3], ["updated_at", "2015-01-16 21:31:00.907104"], ["user_id", 4]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Doloribus delectus commodi ut officiis voluptatem et ut ut."], ["created_at", "2015-01-16 21:31:00.908579"], ["post_id", 9], ["updated_at", "2015-01-16 21:31:00.908579"], ["user_id", 3]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Voluptatibus nulla aut eligendi."], ["created_at", "2015-01-16 21:31:00.909913"], ["post_id", 9], ["updated_at", "2015-01-16 21:31:00.909913"], ["user_id", 2]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Aut voluptatem non rerum illum optio."], ["created_at", "2015-01-16 21:31:00.911231"], ["post_id", 10], ["updated_at", "2015-01-16 21:31:00.911231"], ["user_id", 3]]
+  [1m[36m (0.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Aut est reiciendis explicabo at harum."], ["created_at", "2015-01-16 21:31:00.913265"], ["post_id", 7], ["updated_at", "2015-01-16 21:31:00.913265"], ["user_id", 5]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Consequatur atque in eaque asperiores aspernatur architecto sunt."], ["created_at", "2015-01-16 21:31:00.914733"], ["post_id", 6], ["updated_at", "2015-01-16 21:31:00.914733"], ["user_id", 2]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Et exercitationem non fugiat ratione adipisci."], ["created_at", "2015-01-16 21:31:00.916081"], ["post_id", 7], ["updated_at", "2015-01-16 21:31:00.916081"], ["user_id", 5]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Quis quam corrupti ut facere consequatur totam ut."], ["created_at", "2015-01-16 21:31:00.917377"], ["post_id", 2], ["updated_at", "2015-01-16 21:31:00.917377"], ["user_id", 5]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Non consectetur omnis voluptatem quos."], ["created_at", "2015-01-16 21:31:00.918649"], ["post_id", 10], ["updated_at", "2015-01-16 21:31:00.918649"], ["user_id", 3]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Eligendi veritatis non ab accusantium."], ["created_at", "2015-01-16 21:31:00.920019"], ["post_id", 8], ["updated_at", "2015-01-16 21:31:00.920019"], ["user_id", 1]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Eveniet nisi rem sit."], ["created_at", "2015-01-16 21:31:00.921726"], ["post_id", 4], ["updated_at", "2015-01-16 21:31:00.921726"], ["user_id", 2]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Hic cupiditate eos officia neque."], ["created_at", "2015-01-16 21:31:00.923096"], ["post_id", 8], ["updated_at", "2015-01-16 21:31:00.923096"], ["user_id", 1]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Eius sequi deleniti ut quis debitis sit placeat praesentium."], ["created_at", "2015-01-16 21:31:00.924460"], ["post_id", 4], ["updated_at", "2015-01-16 21:31:00.924460"], ["user_id", 3]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Totam at recusandae rerum sit amet delectus."], ["created_at", "2015-01-16 21:31:00.925743"], ["post_id", 4], ["updated_at", "2015-01-16 21:31:00.925743"], ["user_id", 5]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Ad qui quisquam porro iusto nam."], ["created_at", "2015-01-16 21:31:00.926987"], ["post_id", 9], ["updated_at", "2015-01-16 21:31:00.926987"], ["user_id", 1]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Magni est quas aspernatur."], ["created_at", "2015-01-16 21:31:00.928306"], ["post_id", 9], ["updated_at", "2015-01-16 21:31:00.928306"], ["user_id", 1]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Fugit sit et eum tempora consequuntur expedita rem."], ["created_at", "2015-01-16 21:31:00.929660"], ["post_id", 4], ["updated_at", "2015-01-16 21:31:00.929660"], ["user_id", 2]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Minima vero ad temporibus quia."], ["created_at", "2015-01-16 21:31:00.930895"], ["post_id", 6], ["updated_at", "2015-01-16 21:31:00.930895"], ["user_id", 3]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Sed iusto quo sequi aperiam quia officia."], ["created_at", "2015-01-16 21:31:00.932098"], ["post_id", 8], ["updated_at", "2015-01-16 21:31:00.932098"], ["user_id", 3]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Earum distinctio neque molestias."], ["created_at", "2015-01-16 21:31:00.933306"], ["post_id", 8], ["updated_at", "2015-01-16 21:31:00.933306"], ["user_id", 3]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Accusamus asperiores qui aut consequatur quibusdam."], ["created_at", "2015-01-16 21:31:00.934502"], ["post_id", 1], ["updated_at", "2015-01-16 21:31:00.934502"], ["user_id", 5]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Repudiandae autem quo eveniet odio voluptas molestias et hic."], ["created_at", "2015-01-16 21:31:00.935700"], ["post_id", 7], ["updated_at", "2015-01-16 21:31:00.935700"], ["user_id", 3]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Natus voluptatem necessitatibus laudantium repudiandae modi aut ad voluptate."], ["created_at", "2015-01-16 21:31:00.936928"], ["post_id", 9], ["updated_at", "2015-01-16 21:31:00.936928"], ["user_id", 5]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Dignissimos rerum aut eveniet sed nulla porro."], ["created_at", "2015-01-16 21:31:00.938138"], ["post_id", 8], ["updated_at", "2015-01-16 21:31:00.938138"], ["user_id", 3]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Porro sed fugiat omnis debitis earum."], ["created_at", "2015-01-16 21:31:00.939683"], ["post_id", 5], ["updated_at", "2015-01-16 21:31:00.939683"], ["user_id", 5]]
+  [1m[35m (0.6ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "In pariatur consequuntur libero ab."], ["created_at", "2015-01-16 21:31:00.941872"], ["post_id", 4], ["updated_at", "2015-01-16 21:31:00.941872"], ["user_id", 5]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mUser Exists (15.1ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."user_name" = 'kevin' LIMIT 1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users"  WHERE "users"."email" = 'kevin@kevin.com' LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "password_digest", "updated_at", "user_name") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["created_at", "2015-01-16 21:31:01.064146"], ["email", "kevin@kevin.com"], ["password_digest", "$2a$10$eWoDkriRakig9xaf/b3CxOK6yrI6Mzx9oEdPqnpyYD3D/IkUajXdy"], ["updated_at", "2015-01-16 21:31:01.064146"], ["user_name", "kevin"]]
+  [1m[35m (1.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users"  WHERE "users"."user_name" = 'daniel' LIMIT 1
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."email" = 'daniel@daniel.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("created_at", "email", "password_digest", "updated_at", "user_name") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["created_at", "2015-01-16 21:31:01.131814"], ["email", "daniel@daniel.com"], ["password_digest", "$2a$10$hHegxMXdb6APKfgVoqp5e.xgzhxJOdu.h6H3vsfWD9zR7u20O054C"], ["updated_at", "2015-01-16 21:31:01.131814"], ["user_name", "daniel"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."user_name" = 'brian' LIMIT 1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users"  WHERE "users"."email" = 'brian@brian.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "password_digest", "updated_at", "user_name") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["created_at", "2015-01-16 21:31:01.198098"], ["email", "brian@brian.com"], ["password_digest", "$2a$10$eP6AKB5DAyIwDdWy76tRXOnA5JHzkyFkpM7hxjvOdAvORCpAlgR62"], ["updated_at", "2015-01-16 21:31:01.198098"], ["user_name", "brian"]]
+  [1m[35m (0.7ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT  1 AS one FROM "users"  WHERE "users"."user_name" = 'carl' LIMIT 1
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."email" = 'carl@carl.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("created_at", "email", "password_digest", "updated_at", "user_name") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["created_at", "2015-01-16 21:31:01.262318"], ["email", "carl@carl.com"], ["password_digest", "$2a$10$Fo0SZKFNcIYcKwBrjK98BeiwRgg.Nxo1uZHlQVCZxkoiD8LqS1K.y"], ["updated_at", "2015-01-16 21:31:01.262318"], ["user_name", "carl"]]
+  [1m[36m (0.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."user_name" = 'test' LIMIT 1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users"  WHERE "users"."email" = 'test@test.com' LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "password_digest", "updated_at", "user_name") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["created_at", "2015-01-16 21:31:01.325103"], ["email", "test@test.com"], ["password_digest", "$2a$10$DCsBesVD/J/1Q31.yea59.UAfDDqeCUGZTqrq1hR76nneNQmMncQm"], ["updated_at", "2015-01-16 21:31:01.325103"], ["user_name", "test"]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36mPost Load (0.4ms)[0m  [1mSELECT "posts".* FROM "posts"[0m
+  [1m[35mPost Load (0.8ms)[0m  SELECT  "posts".* FROM "posts"   ORDER BY "posts"."id" ASC LIMIT 1
+  [1m[36mComment Load (0.3ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."post_id" = $1[0m  [["post_id", 1]]
+  [1m[35mPost Load (0.5ms)[0m  SELECT  "posts".* FROM "posts"   ORDER BY "posts"."id" ASC LIMIT 1
+  [1m[36mPost Load (0.5ms)[0m  [1mSELECT  "posts".* FROM "posts"   ORDER BY "posts"."id" ASC LIMIT 1[0m
+  [1m[35mUser Load (0.4ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+
+
+Started GET "/users/new" for 127.0.0.1 at 2015-01-16 16:46:44 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by UsersController#new as HTML
+  Rendered layouts/_signup.erb (43.6ms)
+  Rendered users/new.html.erb within layouts/application (46.7ms)
+  Rendered layouts/_nav.erb (0.7ms)
+Completed 200 OK in 206ms (Views: 189.2ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-16 16:46:45 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-16 16:46:45 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-16 16:46:45 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-16 16:46:45 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-16 16:46:45 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2015-01-16 16:46:51 -0500
+Processing by PostsController#index as HTML
+  [1m[35mPost Load (0.5ms)[0m  SELECT "posts".* FROM "posts"
+  Rendered posts/index.html.erb within layouts/application (7.4ms)
+  Rendered layouts/_nav.erb (0.3ms)
+Completed 200 OK in 64ms (Views: 57.9ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-16 16:46:51 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-16 16:46:51 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-16 16:46:51 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-16 16:46:51 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-16 16:46:51 -0500
+
+
+Started GET "/login" for 127.0.0.1 at 2015-01-16 16:46:58 -0500
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (1.2ms)
+  Rendered layouts/_nav.erb (0.7ms)
+Completed 200 OK in 27ms (Views: 26.3ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/sessions" for 127.0.0.1 at 2015-01-16 16:47:08 -0500
+Processing by SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"v2JZePdCxnE6Vhfzj1dofeCLMMePrEiFIxxPx/9Slp0=", "session"=>{"user_name"=>"carl", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  [1m[36mUser Load (0.9ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."user_name" = 'carl' LIMIT 1[0m
+  Rendered text template (0.0ms)
+Completed 200 OK in 97ms (Views: 1.2ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/" for 127.0.0.1 at 2015-01-16 16:58:57 -0500
+Processing by PostsController#index as HTML
+  [1m[35mPost Load (0.4ms)[0m  SELECT "posts".* FROM "posts"
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered posts/index.html.erb within layouts/application (20.0ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  Rendered layouts/_nav.erb (1.7ms)
+Completed 200 OK in 77ms (Views: 70.9ms | ActiveRecord: 3.7ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-16 16:58:57 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-16 16:58:57 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-16 16:58:57 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-16 16:58:57 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-16 16:58:57 -0500
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2015-01-16 16:59:00 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.2ms)[0m  [1mSELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."post_id" = $1  [["post_id", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  Rendered posts/show.html.erb within layouts/application (55.4ms)
+  [1m[35mUser Load (0.5ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  Rendered layouts/_nav.erb (2.0ms)
+Completed 200 OK in 107ms (Views: 102.2ms | ActiveRecord: 2.8ms)
+
+
+Started GET "/posts/1/comments/new" for 127.0.0.1 at 2015-01-16 16:59:01 -0500
+Processing by CommentsController#new as HTML
+  Parameters: {"post_id"=>"1"}
+  Rendered comments/new.html.erb within layouts/application (75.2ms)
+Completed 500 Internal Server Error in 78ms
+
+ActionView::Template::Error (undefined method `comments_path' for #<#<Class:0x007fb8da3e2548>:0x007fb8da3e12d8>):
+    1: <%= form_for(@comment) do |f| %>
+    2:   <%= f.label(:content) %>
+    3:   <%= f.text_field(:content) %>
+    4:   <%= f.submit %>
+  app/views/comments/new.html.erb:1:in `_app_views_comments_new_html_erb___1962245550282644820_70215956092180'
+
+
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.1ms)
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.7ms)
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (15.1ms)
+
+
+Started GET "/posts/1/comments/new" for 127.0.0.1 at 2015-01-16 16:59:01 -0500
+Processing by CommentsController#new as HTML
+  Parameters: {"post_id"=>"1"}
+  Rendered comments/new.html.erb within layouts/application (8.9ms)
+Completed 500 Internal Server Error in 11ms
+
+ActionView::Template::Error (undefined method `comments_path' for #<#<Class:0x007fb8da3e2548>:0x007fb8dbdbde40>):
+    1: <%= form_for(@comment) do |f| %>
+    2:   <%= f.label(:content) %>
+    3:   <%= f.text_field(:content) %>
+    4:   <%= f.submit %>
+  app/views/comments/new.html.erb:1:in `_app_views_comments_new_html_erb___1962245550282644820_70215969683480'
+
+
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.7ms)
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (9.8ms)
+
+
+Started GET "/posts/1/comments/new" for 127.0.0.1 at 2015-01-16 17:05:03 -0500
+Processing by CommentsController#new as HTML
+  Parameters: {"post_id"=>"1"}
+  Rendered comments/new.html.erb within layouts/application (36.3ms)
+Completed 500 Internal Server Error in 39ms
+
+ActionView::Template::Error (undefined method `comments_path' for #<#<Class:0x007fb8da3e2548>:0x007fb8d8e60918>):
+    1: <%= form_for(@comment) do |f| %>
+    2:   <%= f.label(:content) %>
+    3:   <%= f.text_field(:content) %>
+    4:   <%= f.submit %>
+  app/views/comments/new.html.erb:1:in `_app_views_comments_new_html_erb___1962245550282644820_70215969683480'
+
+
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (0.8ms)
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.7ms)
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (9.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2015-01-16 17:07:53 -0500
+Processing by PostsController#index as HTML
+  [1m[36mPost Load (0.3ms)[0m  [1mSELECT "posts".* FROM "posts"[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  Rendered posts/index.html.erb within layouts/application (2.7ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered layouts/_nav.erb (0.7ms)
+Completed 200 OK in 31ms (Views: 29.7ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2015-01-16 17:07:54 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mPost Load (0.3ms)[0m  SELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."post_id" = $1[0m  [["post_id", 1]]
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  Rendered posts/show.html.erb within layouts/application (3.5ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered layouts/_nav.erb (1.0ms)
+Completed 200 OK in 54ms (Views: 51.8ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/posts/1/comments/new" for 127.0.0.1 at 2015-01-16 17:07:55 -0500
+Processing by CommentsController#new as HTML
+  Parameters: {"post_id"=>"1"}
+  Rendered comments/new.html.erb within layouts/application (2.3ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  Rendered layouts/_nav.erb (1.3ms)
+Completed 200 OK in 32ms (Views: 30.6ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/posts/1/comments" for 127.0.0.1 at 2015-01-16 17:07:59 -0500
+Processing by CommentsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"v2JZePdCxnE6Vhfzj1dofeCLMMePrEiFIxxPx/9Slp0=", "comment"=>{"content"=>"dsfg"}, "commit"=>"Save Comment", "post_id"=>"1"}
+  [1m[36mPost Load (0.2ms)[0m  [1mSELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "dsfg"], ["created_at", "2015-01-16 22:07:59.143623"], ["post_id", 1], ["updated_at", "2015-01-16 22:07:59.143623"], ["user_id", 4]]
+  [1m[35m (19.4ms)[0m  COMMIT
+Redirected to http://localhost:3000/posts/1
+Completed 302 Found in 24ms (ActiveRecord: 20.0ms)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2015-01-16 17:07:59 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.2ms)[0m  [1mSELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."post_id" = $1  [["post_id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  Rendered posts/show.html.erb within layouts/application (4.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered layouts/_nav.erb (1.5ms)
+Completed 200 OK in 57ms (Views: 54.6ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-16 17:07:59 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-16 17:07:59 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-16 17:07:59 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-16 17:07:59 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-16 17:07:59 -0500
+
+
+Started GET "/posts/1/comments/new" for 127.0.0.1 at 2015-01-16 17:08:01 -0500
+Processing by CommentsController#new as HTML
+  Parameters: {"post_id"=>"1"}
+  Rendered comments/new.html.erb within layouts/application (1.3ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  Rendered layouts/_nav.erb (25.1ms)
+Completed 200 OK in 54ms (Views: 53.4ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/posts/1/comments" for 127.0.0.1 at 2015-01-16 17:08:03 -0500
+Processing by CommentsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"v2JZePdCxnE6Vhfzj1dofeCLMMePrEiFIxxPx/9Slp0=", "comment"=>{"content"=>"sdfh"}, "commit"=>"Save Comment", "post_id"=>"1"}
+  [1m[36mPost Load (0.4ms)[0m  [1mSELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "sdfh"], ["created_at", "2015-01-16 22:08:03.265775"], ["post_id", 1], ["updated_at", "2015-01-16 22:08:03.265775"], ["user_id", 4]]
+  [1m[35m (15.6ms)[0m  COMMIT
+Redirected to http://localhost:3000/posts/1
+Completed 302 Found in 20ms (ActiveRecord: 16.3ms)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2015-01-16 17:08:03 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.2ms)[0m  [1mSELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."post_id" = $1  [["post_id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered posts/show.html.erb within layouts/application (4.0ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  Rendered layouts/_nav.erb (1.2ms)
+Completed 200 OK in 30ms (Views: 27.7ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-16 17:08:03 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-16 17:08:03 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-16 17:08:03 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-16 17:08:03 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-16 17:08:03 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2015-01-16 17:08:13 -0500
+Processing by PostsController#index as HTML
+  [1m[36mPost Load (0.2ms)[0m  [1mSELECT "posts".* FROM "posts"[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  Rendered posts/index.html.erb within layouts/application (2.0ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered layouts/_nav.erb (1.0ms)
+Completed 200 OK in 54ms (Views: 52.8ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/posts/2" for 127.0.0.1 at 2015-01-16 17:08:14 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[35mPost Load (0.2ms)[0m  SELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."post_id" = $1[0m  [["post_id", 2]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  Rendered posts/show.html.erb within layouts/application (3.3ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  Rendered layouts/_nav.erb (1.2ms)
+Completed 200 OK in 30ms (Views: 28.0ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/posts/2/comments/new" for 127.0.0.1 at 2015-01-16 17:08:15 -0500
+Processing by CommentsController#new as HTML
+  Parameters: {"post_id"=>"2"}
+  Rendered comments/new.html.erb within layouts/application (1.2ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered layouts/_nav.erb (1.0ms)
+Completed 200 OK in 51ms (Views: 50.3ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/posts/2/comments" for 127.0.0.1 at 2015-01-16 17:08:17 -0500
+Processing by CommentsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"v2JZePdCxnE6Vhfzj1dofeCLMMePrEiFIxxPx/9Slp0=", "comment"=>{"content"=>"xcbn"}, "commit"=>"Save Comment", "post_id"=>"2"}
+  [1m[35mPost Load (0.2ms)[0m  SELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "xcbn"], ["created_at", "2015-01-16 22:08:17.502071"], ["post_id", 2], ["updated_at", "2015-01-16 22:08:17.502071"], ["user_id", 4]]
+  [1m[36m (16.0ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/posts/2
+Completed 302 Found in 20ms (ActiveRecord: 16.5ms)
+
+
+Started GET "/posts/2" for 127.0.0.1 at 2015-01-16 17:08:17 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[35mPost Load (0.2ms)[0m  SELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."post_id" = $1[0m  [["post_id", 2]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  Rendered posts/show.html.erb within layouts/application (4.7ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered layouts/_nav.erb (1.2ms)
+Completed 200 OK in 31ms (Views: 29.1ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-16 17:08:17 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-16 17:08:17 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-16 17:08:17 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-16 17:08:17 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-16 17:08:17 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2015-01-16 17:08:35 -0500
+Processing by PostsController#index as HTML
+  [1m[35mPost Load (0.3ms)[0m  SELECT "posts".* FROM "posts"
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered posts/index.html.erb within layouts/application (2.3ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  Rendered layouts/_nav.erb (1.2ms)
+Completed 200 OK in 55ms (Views: 53.5ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/logout" for 127.0.0.1 at 2015-01-16 17:08:37 -0500
+Processing by SessionsController#destroy as HTML
+Redirected to http://localhost:3000/
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2015-01-16 17:08:37 -0500
+Processing by PostsController#index as HTML
+  [1m[36mPost Load (0.2ms)[0m  [1mSELECT "posts".* FROM "posts"[0m
+  Rendered posts/index.html.erb within layouts/application (1.4ms)
+  Rendered layouts/_nav.erb (0.5ms)
+Completed 200 OK in 55ms (Views: 54.0ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/posts/3" for 127.0.0.1 at 2015-01-16 17:08:37 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mPost Load (0.2ms)[0m  SELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."post_id" = $1[0m  [["post_id", 3]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered posts/show.html.erb within layouts/application (3.9ms)
+  Rendered layouts/_nav.erb (0.2ms)
+Completed 200 OK in 28ms (Views: 26.5ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/posts/3/comments/new" for 127.0.0.1 at 2015-01-16 17:08:39 -0500
+Processing by CommentsController#new as HTML
+  Parameters: {"post_id"=>"3"}
+  Rendered comments/new.html.erb within layouts/application (1.3ms)
+  Rendered layouts/_nav.erb (0.3ms)
+Completed 200 OK in 52ms (Views: 51.3ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/posts/3/comments" for 127.0.0.1 at 2015-01-16 17:08:41 -0500
+Processing by CommentsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"l0oeFAYlg0TpwiRtnP/5nVT1ObL45Iu82CwT7VoIOzw=", "comment"=>{"content"=>"fg"}, "commit"=>"Save Comment", "post_id"=>"3"}
+  [1m[35mPost Load (0.2ms)[0m  SELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["content", "fg"], ["created_at", "2015-01-16 22:08:41.876420"], ["post_id", 3], ["updated_at", "2015-01-16 22:08:41.876420"]]
+  [1m[36m (16.3ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/posts/3
+Completed 302 Found in 21ms (ActiveRecord: 16.8ms)
+
+
+Started GET "/posts/3" for 127.0.0.1 at 2015-01-16 17:08:41 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[35mPost Load (0.2ms)[0m  SELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mComment Load (0.3ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."post_id" = $1[0m  [["post_id", 3]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered posts/show.html.erb within layouts/application (4.1ms)
+Completed 500 Internal Server Error in 7ms
+
+ActionView::Template::Error (undefined method `user_name' for nil:NilClass):
+    4: <h3>Comments</h3>
+    5: <ul>
+    6:   <% @post.comments.each do |comment| %>
+    7:     <li><strong><%= comment.user.user_name %></strong> says <%= comment.content %></li>
+    8:   <% end %>
+    9: </ul>
+   10: 
+  app/views/posts/show.html.erb:7:in `block in _app_views_posts_show_html_erb___777970077242061451_70215948016240'
+  app/views/posts/show.html.erb:6:in `_app_views_posts_show_html_erb___777970077242061451_70215948016240'
+
+
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.4ms)
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /Users/carlschubert/.rbenv/versions/2.0.0-p481/lib/ruby/gems/2.0.0/gems/actionpack-4.1.8/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (13.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2015-01-16 17:09:08 -0500
+Processing by PostsController#index as HTML
+  [1m[35mPost Load (0.3ms)[0m  SELECT "posts".* FROM "posts"
+  Rendered posts/index.html.erb within layouts/application (1.9ms)
+  Rendered layouts/_nav.erb (0.3ms)
+Completed 200 OK in 27ms (Views: 26.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-16 17:09:09 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-16 17:09:09 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-16 17:09:09 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-16 17:09:09 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-16 17:09:09 -0500
+
+
+Started GET "/posts/6" for 127.0.0.1 at 2015-01-16 17:09:17 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"6"}
+  [1m[36mPost Load (0.1ms)[0m  [1mSELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 6]]
+  [1m[35mComment Load (0.1ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."post_id" = $1  [["post_id", 6]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+  Rendered posts/show.html.erb within layouts/application (2.9ms)
+  Rendered layouts/_nav.erb (0.4ms)
+Completed 200 OK in 28ms (Views: 26.1ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2015-01-16 17:09:19 -0500
+Processing by PostsController#index as HTML
+  [1m[35mPost Load (0.3ms)[0m  SELECT "posts".* FROM "posts"
+  Rendered posts/index.html.erb within layouts/application (1.5ms)
+  Rendered layouts/_nav.erb (0.3ms)
+Completed 200 OK in 52ms (Views: 51.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/posts/2" for 127.0.0.1 at 2015-01-16 17:09:20 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (0.2ms)[0m  [1mSELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."post_id" = $1  [["post_id", 2]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered posts/show.html.erb within layouts/application (4.9ms)
+  Rendered layouts/_nav.erb (0.3ms)
+Completed 200 OK in 33ms (Views: 30.7ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2015-01-16 17:09:22 -0500
+Processing by PostsController#index as HTML
+  [1m[35mPost Load (0.3ms)[0m  SELECT "posts".* FROM "posts"
+  Rendered posts/index.html.erb within layouts/application (1.3ms)
+  Rendered layouts/_nav.erb (0.4ms)
+Completed 200 OK in 52ms (Views: 50.9ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2015-01-16 17:09:24 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.2ms)[0m  [1mSELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."post_id" = $1  [["post_id", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 5]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered posts/show.html.erb within layouts/application (4.9ms)
+  Rendered layouts/_nav.erb (0.2ms)
+Completed 200 OK in 33ms (Views: 31.2ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2015-01-16 17:09:29 -0500
+Processing by PostsController#index as HTML
+  [1m[35mPost Load (0.3ms)[0m  SELECT "posts".* FROM "posts"
+  Rendered posts/index.html.erb within layouts/application (1.3ms)
+  Rendered layouts/_nav.erb (0.3ms)
+Completed 200 OK in 51ms (Views: 50.2ms | ActiveRecord: 0.3ms)

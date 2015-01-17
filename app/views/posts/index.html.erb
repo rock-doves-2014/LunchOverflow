@@ -1,0 +1,7 @@
+<% @posts.each do |post| %>
+  <h2><a href="/posts/<%= post.id %>"><%= post.title %></a></h2>
+<% end %>
+
+<% if current_user %>
+  <%= link_to 'Add Post', new_post_path %>
+<% end %>
