@@ -6,7 +6,13 @@ Rails.application.routes.draw do
   get '/logout' => 'sessions#destroy'
   resources :posts do
     resources :comments
+
+    member do
+      put 'upvote', to: 'posts#upvote'
+      put 'downvote', to: 'posts#downvote'
+    end
   end
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
