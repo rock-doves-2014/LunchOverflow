@@ -4,6 +4,7 @@ class CreateComments < ActiveRecord::Migration
       t.string :content, null: false
       t.references :user
       t.references :post
+      t.integer :parent_id
       t.timestamps
     end
   end

@@ -1,0 +1,8 @@
+<p>Added by <%= comment.user.user_name %>on
+  <%= l(comment.created_at, format: '%B, %d %Y %H:%M:%S') %></p>
+
+<blockquote>
+  <p><%= comment.content %></p>
+</blockquote>
+
+<p><%= link_to 'reply', "/posts/#{@post.id}/comments/new/#{comment.id}" %></p>

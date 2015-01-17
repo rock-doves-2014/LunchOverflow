@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get '/logout' => 'sessions#destroy'
   resources :posts do
     resources :comments
-
+    get '/comments/new(/:parent_id)', to: 'comments#new', as: :new_comment
     member do
       put 'upvote', to: 'posts#upvote'
       put 'downvote', to: 'posts#downvote'
