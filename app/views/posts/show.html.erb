@@ -5,6 +5,9 @@
 <ul>
   <% @post.comments.each do |comment| %>
     <li><strong><%= comment.user.user_name %></strong> says <%= comment.content %></li>
+    <%=  link_to 'upvote', upvote_comment_path(comment), method: :put%>
+    <%=  link_to 'downvote', downvote_comment_path(comment), method: :put%>
+  <%= comment.get_upvotes.size %>
   <% end %>
 </ul>
 
