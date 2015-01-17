@@ -1,8 +1,9 @@
 <% @posts.each do |post| %>
   <h2><a href="/posts/<%= post.id %>"><%= post.title %></a></h2>
   <%=  link_to 'upvote', upvote_post_path(post), method: :put%>
-  <%=  link_to 'downvote', downvote_post_path(post), method: :put%>
   <%= post.get_upvotes.size %>
+  <%=  link_to 'downvote', downvote_post_path(post), method: :put%>
+  <%= post.get_downvotes.size  %>
 <% end %>
 
 <% if current_user %>
