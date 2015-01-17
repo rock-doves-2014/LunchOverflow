@@ -45,13 +45,13 @@ class CommentsController < ApplicationController
   def upvote
     @comment = Comment.find(params[:id])
     @comment.upvote_by current_user
-    redirect_to comments_path
+    redirect_to post_path(@comment.post)
   end
 
   def downvote
    @comment = Comment.find(params[:id])
    @comment.downvote_by current_user
-   redirect_to comments_path
+   redirect_to post_path(@comment.post) 
   end
 
 
