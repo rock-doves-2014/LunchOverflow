@@ -41,6 +41,11 @@ class PostsController < ApplicationController
     redirect_to root_path
   end
 
+  def upvote
+    @post = Post.find(params[:id])
+    @post.upvote_by current_user
+    redirect_to posts_path
+  end
   private
 
   def post_params
