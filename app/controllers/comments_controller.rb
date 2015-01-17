@@ -48,6 +48,13 @@ class CommentsController < ApplicationController
     redirect_to comments_path
   end
 
+  def downvote
+   @comment = Comment.find(params[:id])
+   @comment.downvote_by current_user
+   redirect_to comments_path
+  end
+
+
   private
 
   def comment_params
