@@ -19,3 +19,40 @@
  body {
   background: url('restaurant.png') repeat 0 0;
  }
+
+ a {
+  font-family: 'Montserrat', sans-serif !important;
+ }
+
+.navbar {
+  background-color: #348784;
+}
+
+#nav-logo {
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 3px 3px 1px rgba(63, 152, 154, 0.68);
+}
+
+#nav-controls {
+  display: block;
+  text-align: center;
+}
+
+.nav-button {
+  display: inline-block;
+}
+
+.off-gray {
+  color: #9F9D9D !important;
+}
+
+.off-white {
+  color: #E7F9F8 !important;
+}
+
+@media (max-width: 705px) {
+  .navbar {
+    height: 8em;
+  }
+}
