@@ -12,7 +12,7 @@
     <div class="comments-box">
       <ul class="no-bullet">
         <%= comments_tree_for @comments %>
-        <%= link_to "add a comment", new_post_comment_path(@post) %>
+        <br><%= link_to "add a comment", new_post_comment_path(@post) %>
       </ul>
     </div>
   <% end %>
