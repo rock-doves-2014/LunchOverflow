@@ -1,10 +1,20 @@
-<div id="nav-bar">
-    <%= link_to 'Home', root_path %>
-  <% if current_user %>
-    <%= link_to 'Add Post', new_post_path %>
-    <%= link_to 'Logout', logout_path %>
-  <% else %>
-    <%= link_to 'Login', login_path %>
-    <%= link_to 'Signup', new_user_path %>
-  <% end %>
+<div class="navbar">
+  <div class="small-12 medium-8 medium-centered columns">
+    <div class="row">
+      <div id ="nav-logo">
+        <h2><%= link_to 'HUNGRY? DBC-NYC', root_path, class: "off-white text-center" %></h2>
+      </div>
+    </div>
+    <div class="small-12 medium-6 medium-centered columns">
+      <div id="nav-controls">
+        <% if current_user %>
+          <%= link_to 'Suggest', new_post_path, class: "button small default radius nav-button" %>
+          <%= link_to 'Logout', logout_path, class: "button alert small radius nav-button" %>
+        <% else %>
+          <%= link_to 'Login', login_path, class: "button small radius nav-button" %>
+          <%= link_to 'Signup', new_user_path, class: "button small success radius nav-button" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
