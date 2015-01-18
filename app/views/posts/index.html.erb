@@ -30,9 +30,11 @@
     </div>
   <% end %>
 
-  <% if current_user %>
-    <%= link_to 'Add Post', new_post_path %>
-  <% end %>
+  <div onclick="location.href='/posts/new';" class="suggest-container small-12 medium-12 medium-centered large-8 large-centered columns">
+    <% if current_user %>
+      <h2 class="text-center"><%= link_to 'Suggest a place to eat!', new_post_path, class: "suggest-button" %></h2>
+    <% end %>
+  </div>
 
 </div>
 

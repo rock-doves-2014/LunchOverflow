@@ -61,6 +61,19 @@
   transition: 0.5s ease-in-out;
 }
 
+.suggest-container {
+  margin: 1.5em 0;
+  background-color: #2B811D;
+  border-radius: 6px;
+}
+
+.suggest-container a {
+  font-family: 'Dosis', sans-serif !important;
+  font-weight: 700;
+  color: #9AEF3E;
+  transition: 0.5s ease-in-out;
+}
+
 .off-gray {
   color: #9F9D9D !important;
 }
@@ -82,8 +95,18 @@
   color: #FFFFFF;
 }
 
+.suggest-button:hover {
+  color: #FFFFFF;
+}
+
 .post-container:hover {
-  opacity: 1;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.suggest-container:hover {
+  background-color: #348784;
+  cursor:pointer;
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
 }
