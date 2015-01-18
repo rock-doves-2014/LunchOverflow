@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
   end
 
   def new
-    @comment = Comment.new
+    @comment = Comment.new(parent_id: params[:parent_id])
   end
 
   def create
@@ -51,7 +51,7 @@ class CommentsController < ApplicationController
   def downvote
    @comment = Comment.find(params[:id])
    @comment.downvote_by current_user
-   redirect_to post_path(@comment.post) 
+   redirect_to post_path(@comment.post)
   end
 
 
