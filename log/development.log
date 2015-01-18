@@ -11725,3 +11725,557 @@ Processing by PostsController#show as HTML
   [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
   Rendered layouts/_nav.erb (1.5ms)
 Completed 200 OK in 109ms (Views: 102.5ms | ActiveRecord: 3.1ms)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2015-01-18 13:24:54 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mPost Load (0.4ms)[0m  SELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mComment Load (0.7ms)[0m  [1mSELECT "comments".* FROM "comments" INNER JOIN (
+  SELECT descendant_id, MAX(generations) as depth
+  FROM "comment_hierarchies"
+  GROUP BY descendant_id
+  HAVING MAX(generations) <= 4
+) AS generation_depth
+  ON "comments".id = generation_depth.descendant_id WHERE "comments"."post_id" = $1  ORDER BY generation_depth.depth, created_at DESC[0m  [["post_id", 1]]
+  [1m[35mActsAsTaggableOn::Tag Load (0.7ms)[0m  SELECT "tags".* FROM "tags" INNER JOIN "taggings" ON "tags"."id" = "taggings"."tag_id" WHERE "taggings"."taggable_id" = $1 AND "taggings"."taggable_type" = $2 AND "taggings"."context" = 'tags'  [["taggable_id", 1], ["taggable_type", "Post"]]
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.4ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL  [["votable_id", 5], ["votable_type", "Comment"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 5], ["votable_type", "Comment"]]
+  Rendered comments/_comment.html.erb (62.6ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 2], ["votable_type", "Comment"]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 2], ["votable_type", "Comment"]]
+  Rendered comments/_comment.html.erb (4.7ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL  [["votable_id", 3], ["votable_type", "Comment"]]
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 3], ["votable_type", "Comment"]]
+  Rendered comments/_comment.html.erb (4.8ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 4], ["votable_type", "Comment"]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 4], ["votable_type", "Comment"]]
+  Rendered comments/_comment.html.erb (4.5ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL  [["votable_id", 1], ["votable_type", "Comment"]]
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Comment"]]
+  Rendered comments/_comment.html.erb (4.3ms)
+  Rendered posts/show.html.erb within layouts/application (109.9ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered layouts/_nav.erb (2.1ms)
+Completed 200 OK in 330ms (Views: 198.4ms | ActiveRecord: 16.6ms)
+
+
+Started GET "/assets/css/foundation.min.css?body=1" for 127.0.0.1 at 2015-01-18 13:24:54 -0500
+
+
+Started GET "/assets/font-awesome.css?body=1" for 127.0.0.1 at 2015-01-18 13:24:54 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-18 13:24:54 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-18 13:24:54 -0500
+
+
+Started GET "/assets/css/normalize.css?body=1" for 127.0.0.1 at 2015-01-18 13:24:54 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-18 13:24:54 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-18 13:24:54 -0500
+
+
+Started GET "/assets/js/foundation.min.js?body=1" for 127.0.0.1 at 2015-01-18 13:24:54 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-18 13:24:54 -0500
+
+
+Started GET "/assets/restaurant.png" for 127.0.0.1 at 2015-01-18 13:24:54 -0500
+
+
+Started GET "/tagged?tag=mexican" for 127.0.0.1 at 2015-01-18 13:24:58 -0500
+Processing by PostsController#tagged as HTML
+  Parameters: {"tag"=>"mexican"}
+  [1m[36mActsAsTaggableOn::Tag Load (0.5ms)[0m  [1mSELECT "tags".* FROM "tags"  WHERE (LOWER(name) = LOWER('mexican'))[0m
+  [1m[35mPost Load (0.4ms)[0m  SELECT "posts".* FROM "posts" JOIN taggings posts_taggings_f3b3c91  ON posts_taggings_f3b3c91.taggable_id = "posts".id AND posts_taggings_f3b3c91.taggable_type = 'Post' AND posts_taggings_f3b3c91.tag_id = 1
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  Rendered posts/index.html.erb within layouts/application (6.8ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered layouts/_nav.erb (1.6ms)
+Completed 200 OK in 143ms (Views: 37.3ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/tagged?tag=mexican" for 127.0.0.1 at 2015-01-18 13:25:37 -0500
+Processing by PostsController#tagged as HTML
+  Parameters: {"tag"=>"mexican"}
+  [1m[36mActsAsTaggableOn::Tag Load (0.3ms)[0m  [1mSELECT "tags".* FROM "tags"  WHERE (LOWER(name) = LOWER('mexican'))[0m
+  [1m[35mPost Load (0.5ms)[0m  SELECT "posts".* FROM "posts" JOIN taggings posts_taggings_f3b3c91  ON posts_taggings_f3b3c91.taggable_id = "posts".id AND posts_taggings_f3b3c91.taggable_type = 'Post' AND posts_taggings_f3b3c91.tag_id = 1
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  Rendered posts/index.html.erb within layouts/application (10.0ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered layouts/_nav.erb (1.3ms)
+Completed 200 OK in 91ms (Views: 87.5ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/assets/css/foundation.min.css?body=1" for 127.0.0.1 at 2015-01-18 13:25:37 -0500
+
+
+Started GET "/assets/css/normalize.css?body=1" for 127.0.0.1 at 2015-01-18 13:25:37 -0500
+
+
+Started GET "/assets/font-awesome.css?body=1" for 127.0.0.1 at 2015-01-18 13:25:37 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-18 13:25:37 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-18 13:25:37 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-18 13:25:37 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-18 13:25:38 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-18 13:25:38 -0500
+
+
+Started GET "/assets/js/foundation.min.js?body=1" for 127.0.0.1 at 2015-01-18 13:25:38 -0500
+
+
+Started GET "/assets/restaurant.png" for 127.0.0.1 at 2015-01-18 13:25:38 -0500
+
+
+Started GET "/tagged?tag=mexican" for 127.0.0.1 at 2015-01-18 13:25:53 -0500
+Processing by PostsController#tagged as HTML
+  Parameters: {"tag"=>"mexican"}
+  [1m[36mActsAsTaggableOn::Tag Load (0.4ms)[0m  [1mSELECT "tags".* FROM "tags"  WHERE (LOWER(name) = LOWER('mexican'))[0m
+  [1m[35mPost Load (0.5ms)[0m  SELECT "posts".* FROM "posts" JOIN taggings posts_taggings_f3b3c91  ON posts_taggings_f3b3c91.taggable_id = "posts".id AND posts_taggings_f3b3c91.taggable_type = 'Post' AND posts_taggings_f3b3c91.tag_id = 1
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  Rendered posts/index.html.erb within layouts/application (7.9ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered layouts/_nav.erb (0.8ms)
+Completed 200 OK in 46ms (Views: 42.2ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/assets/css/normalize.css?body=1" for 127.0.0.1 at 2015-01-18 13:25:53 -0500
+
+
+Started GET "/assets/font-awesome.css?body=1" for 127.0.0.1 at 2015-01-18 13:25:53 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-18 13:25:53 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-18 13:25:53 -0500
+
+
+Started GET "/assets/css/foundation.min.css?body=1" for 127.0.0.1 at 2015-01-18 13:25:53 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-18 13:25:53 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-18 13:25:53 -0500
+
+
+Started GET "/assets/js/foundation.min.js?body=1" for 127.0.0.1 at 2015-01-18 13:25:53 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-18 13:25:53 -0500
+
+
+Started GET "/assets/restaurant.png" for 127.0.0.1 at 2015-01-18 13:25:53 -0500
+
+
+Started GET "/tagged?tag=mexican" for 127.0.0.1 at 2015-01-18 13:26:51 -0500
+Processing by PostsController#tagged as HTML
+  Parameters: {"tag"=>"mexican"}
+  [1m[36mActsAsTaggableOn::Tag Load (0.4ms)[0m  [1mSELECT "tags".* FROM "tags"  WHERE (LOWER(name) = LOWER('mexican'))[0m
+  [1m[35mPost Load (0.5ms)[0m  SELECT "posts".* FROM "posts" JOIN taggings posts_taggings_f3b3c91  ON posts_taggings_f3b3c91.taggable_id = "posts".id AND posts_taggings_f3b3c91.taggable_type = 'Post' AND posts_taggings_f3b3c91.tag_id = 1
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  Rendered posts/index.html.erb within layouts/application (8.3ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered layouts/_nav.erb (1.3ms)
+Completed 200 OK in 107ms (Views: 103.5ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/assets/css/normalize.css?body=1" for 127.0.0.1 at 2015-01-18 13:26:52 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-18 13:26:52 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-18 13:26:52 -0500
+
+
+Started GET "/assets/css/foundation.min.css?body=1" for 127.0.0.1 at 2015-01-18 13:26:52 -0500
+
+
+Started GET "/assets/font-awesome.css?body=1" for 127.0.0.1 at 2015-01-18 13:26:52 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-18 13:26:52 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-18 13:26:52 -0500
+
+
+Started GET "/assets/js/foundation.min.js?body=1" for 127.0.0.1 at 2015-01-18 13:26:52 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-18 13:26:52 -0500
+
+
+Started GET "/assets/restaurant.png" for 127.0.0.1 at 2015-01-18 13:26:52 -0500
+
+
+Started GET "/tagged?tag=mexican" for 127.0.0.1 at 2015-01-18 13:27:09 -0500
+Processing by PostsController#tagged as HTML
+  Parameters: {"tag"=>"mexican"}
+  [1m[36mActsAsTaggableOn::Tag Load (0.4ms)[0m  [1mSELECT "tags".* FROM "tags"  WHERE (LOWER(name) = LOWER('mexican'))[0m
+  [1m[35mPost Load (0.5ms)[0m  SELECT "posts".* FROM "posts" JOIN taggings posts_taggings_f3b3c91  ON posts_taggings_f3b3c91.taggable_id = "posts".id AND posts_taggings_f3b3c91.taggable_type = 'Post' AND posts_taggings_f3b3c91.tag_id = 1
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  Rendered posts/index.html.erb within layouts/application (7.4ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered layouts/_nav.erb (1.3ms)
+Completed 200 OK in 97ms (Views: 93.4ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/assets/css/foundation.min.css?body=1" for 127.0.0.1 at 2015-01-18 13:27:09 -0500
+
+
+Started GET "/assets/css/normalize.css?body=1" for 127.0.0.1 at 2015-01-18 13:27:09 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-18 13:27:09 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-18 13:27:09 -0500
+
+
+Started GET "/assets/font-awesome.css?body=1" for 127.0.0.1 at 2015-01-18 13:27:09 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-18 13:27:09 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-18 13:27:09 -0500
+
+
+Started GET "/assets/js/foundation.min.js?body=1" for 127.0.0.1 at 2015-01-18 13:27:09 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-18 13:27:09 -0500
+
+
+Started GET "/assets/restaurant.png" for 127.0.0.1 at 2015-01-18 13:27:10 -0500
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2015-01-18 13:27:31 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.3ms)[0m  [1mSELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mComment Load (0.4ms)[0m  SELECT "comments".* FROM "comments" INNER JOIN (
+  SELECT descendant_id, MAX(generations) as depth
+  FROM "comment_hierarchies"
+  GROUP BY descendant_id
+  HAVING MAX(generations) <= 4
+) AS generation_depth
+  ON "comments".id = generation_depth.descendant_id WHERE "comments"."post_id" = $1  ORDER BY generation_depth.depth, created_at DESC  [["post_id", 1]]
+  [1m[36mActsAsTaggableOn::Tag Load (0.7ms)[0m  [1mSELECT "tags".* FROM "tags" INNER JOIN "taggings" ON "tags"."id" = "taggings"."tag_id" WHERE "taggings"."taggable_id" = $1 AND "taggings"."taggable_type" = $2 AND "taggings"."context" = 'tags'[0m  [["taggable_id", 1], ["taggable_type", "Post"]]
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 5], ["votable_type", "Comment"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 5], ["votable_type", "Comment"]]
+  Rendered comments/_comment.html.erb (5.5ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL  [["votable_id", 2], ["votable_type", "Comment"]]
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 2], ["votable_type", "Comment"]]
+  Rendered comments/_comment.html.erb (4.0ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 3], ["votable_type", "Comment"]]
+  [1m[35m (0.4ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 3], ["votable_type", "Comment"]]
+  Rendered comments/_comment.html.erb (8.2ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL  [["votable_id", 4], ["votable_type", "Comment"]]
+  [1m[36m (0.4ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 4], ["votable_type", "Comment"]]
+  Rendered comments/_comment.html.erb (6.2ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.5ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Comment"]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 1], ["votable_type", "Comment"]]
+  Rendered comments/_comment.html.erb (8.0ms)
+  Rendered posts/show.html.erb within layouts/application (43.4ms)
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  Rendered layouts/_nav.erb (2.0ms)
+Completed 200 OK in 141ms (Views: 132.3ms | ActiveRecord: 5.3ms)
+
+
+Started GET "/tagged?tag=mexican" for 127.0.0.1 at 2015-01-18 13:27:32 -0500
+Processing by PostsController#tagged as HTML
+  Parameters: {"tag"=>"mexican"}
+  [1m[35mActsAsTaggableOn::Tag Load (0.4ms)[0m  SELECT "tags".* FROM "tags"  WHERE (LOWER(name) = LOWER('mexican'))
+  [1m[36mPost Load (0.5ms)[0m  [1mSELECT "posts".* FROM "posts" JOIN taggings posts_taggings_f3b3c91  ON posts_taggings_f3b3c91.taggable_id = "posts".id AND posts_taggings_f3b3c91.taggable_type = 'Post' AND posts_taggings_f3b3c91.tag_id = 1[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered posts/index.html.erb within layouts/application (7.1ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  Rendered layouts/_nav.erb (1.1ms)
+Completed 200 OK in 44ms (Views: 40.6ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/posts/new" for 127.0.0.1 at 2015-01-18 13:27:35 -0500
+Processing by PostsController#new as HTML
+  Rendered posts/new.html.erb within layouts/application (75.2ms)
+  [1m[35mUser Load (0.5ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered layouts/_nav.erb (2.7ms)
+Completed 200 OK in 122ms (Views: 119.8ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/posts/new" for 127.0.0.1 at 2015-01-18 13:27:36 -0500
+Processing by PostsController#new as HTML
+  Rendered posts/new.html.erb within layouts/application (65.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  Rendered layouts/_nav.erb (1.8ms)
+Completed 200 OK in 121ms (Views: 119.3ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/assets/css/foundation.min.css?body=1" for 127.0.0.1 at 2015-01-18 13:27:36 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-18 13:27:36 -0500
+
+
+Started GET "/assets/css/normalize.css?body=1" for 127.0.0.1 at 2015-01-18 13:27:36 -0500
+
+
+Started GET "/assets/font-awesome.css?body=1" for 127.0.0.1 at 2015-01-18 13:27:36 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-18 13:27:36 -0500
+
+
+Started GET "/assets/js/foundation.min.js?body=1" for 127.0.0.1 at 2015-01-18 13:27:36 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-18 13:27:36 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-18 13:27:36 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-18 13:27:36 -0500
+
+
+Started GET "/assets/restaurant.png" for 127.0.0.1 at 2015-01-18 13:27:36 -0500
+
+
+Started POST "/posts" for 127.0.0.1 at 2015-01-18 13:28:07 -0500
+Processing by PostsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"n+RraiWn5FG+qJecmwlGSC3COnlO7dyHsrLH/Wmqx9k=", "post"=>{"title"=>"Tres Carnes", "content"=>"Mmm burritos", "address"=>"idk road", "tag_list"=>"mexican, fastfood, burritos"}, "commit"=>"Post"}
+  [1m[35mUser Load (0.5ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["address", "idk road"], ["content", "Mmm burritos"], ["created_at", "2015-01-18 18:28:07.419058"], ["title", "Tres Carnes"], ["updated_at", "2015-01-18 18:28:07.419058"], ["user_id", 1]]
+  [1m[36mActsAsTaggableOn::Tag Load (0.3ms)[0m  [1mSELECT "tags".* FROM "tags"  WHERE (LOWER(name) = LOWER('mexican') OR LOWER(name) = LOWER('fastfood') OR LOWER(name) = LOWER('burritos'))[0m
+  [1m[35mActsAsTaggableOn::Tag Exists (0.5ms)[0m  SELECT  1 AS one FROM "tags"  WHERE "tags"."name" = 'fastfood' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "tags" ("name") VALUES ($1) RETURNING "id"[0m  [["name", "fastfood"]]
+  [1m[35mActsAsTaggableOn::Tag Exists (0.3ms)[0m  SELECT  1 AS one FROM "tags"  WHERE "tags"."name" = 'burritos' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "tags" ("name") VALUES ($1) RETURNING "id"[0m  [["name", "burritos"]]
+  [1m[35mActsAsTaggableOn::Tag Load (0.4ms)[0m  SELECT "tags".* FROM "tags" INNER JOIN "taggings" ON "tags"."id" = "taggings"."tag_id" WHERE "taggings"."taggable_id" = $1 AND "taggings"."taggable_type" = $2 AND (taggings.context = 'tags' AND taggings.tagger_id IS NULL)  [["taggable_id", 2], ["taggable_type", "Post"]]
+  [1m[36mActsAsTaggableOn::Tagging Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "taggings"  WHERE ("taggings"."tag_id" = 1 AND "taggings"."taggable_type" = 'Post' AND "taggings"."taggable_id" = 2 AND "taggings"."context" = 'tags' AND "taggings"."tagger_id" IS NULL AND "taggings"."tagger_type" IS NULL) LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "taggings" ("context", "created_at", "tag_id", "taggable_id", "taggable_type") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["context", "tags"], ["created_at", "2015-01-18 18:28:07.445088"], ["tag_id", 1], ["taggable_id", 2], ["taggable_type", "Post"]]
+  [1m[36mActsAsTaggableOn::Tag Load (0.2ms)[0m  [1mSELECT  "tags".* FROM "tags"  WHERE "tags"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mSQL (0.4ms)[0m  UPDATE "tags" SET "taggings_count" = COALESCE("taggings_count", 0) + 1 WHERE "tags"."id" = 1
+  [1m[36mActsAsTaggableOn::Tagging Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "taggings"  WHERE ("taggings"."tag_id" = 2 AND "taggings"."taggable_type" = 'Post' AND "taggings"."taggable_id" = 2 AND "taggings"."context" = 'tags' AND "taggings"."tagger_id" IS NULL AND "taggings"."tagger_type" IS NULL) LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "taggings" ("context", "created_at", "tag_id", "taggable_id", "taggable_type") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["context", "tags"], ["created_at", "2015-01-18 18:28:07.452142"], ["tag_id", 2], ["taggable_id", 2], ["taggable_type", "Post"]]
+  [1m[36mActsAsTaggableOn::Tag Load (0.3ms)[0m  [1mSELECT  "tags".* FROM "tags"  WHERE "tags"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mSQL (0.3ms)[0m  UPDATE "tags" SET "taggings_count" = COALESCE("taggings_count", 0) + 1 WHERE "tags"."id" = 2
+  [1m[36mActsAsTaggableOn::Tagging Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "taggings"  WHERE ("taggings"."tag_id" = 3 AND "taggings"."taggable_type" = 'Post' AND "taggings"."taggable_id" = 2 AND "taggings"."context" = 'tags' AND "taggings"."tagger_id" IS NULL AND "taggings"."tagger_type" IS NULL) LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "taggings" ("context", "created_at", "tag_id", "taggable_id", "taggable_type") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["context", "tags"], ["created_at", "2015-01-18 18:28:07.456410"], ["tag_id", 3], ["taggable_id", 2], ["taggable_type", "Post"]]
+  [1m[36mActsAsTaggableOn::Tag Load (0.2ms)[0m  [1mSELECT  "tags".* FROM "tags"  WHERE "tags"."id" = $1 LIMIT 1[0m  [["id", 3]]
+  [1m[35mSQL (0.3ms)[0m  UPDATE "tags" SET "taggings_count" = COALESCE("taggings_count", 0) + 1 WHERE "tags"."id" = 3
+  [1m[36m (0.9ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/posts
+Completed 302 Found in 54ms (ActiveRecord: 8.2ms)
+
+
+Started GET "/posts" for 127.0.0.1 at 2015-01-18 13:28:07 -0500
+Processing by PostsController#index as HTML
+  [1m[35mPost Load (0.3ms)[0m  SELECT "posts".* FROM "posts"
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 2], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 2], ["votable_type", "Post"]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  Rendered posts/index.html.erb within layouts/application (8.5ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered layouts/_nav.erb (1.5ms)
+Completed 200 OK in 92ms (Views: 90.4ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/assets/css/foundation.min.css?body=1" for 127.0.0.1 at 2015-01-18 13:28:07 -0500
+
+
+Started GET "/assets/css/normalize.css?body=1" for 127.0.0.1 at 2015-01-18 13:28:07 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-18 13:28:07 -0500
+
+
+Started GET "/assets/font-awesome.css?body=1" for 127.0.0.1 at 2015-01-18 13:28:07 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-18 13:28:07 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-18 13:28:07 -0500
+
+
+Started GET "/assets/js/foundation.min.js?body=1" for 127.0.0.1 at 2015-01-18 13:28:07 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-18 13:28:07 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-18 13:28:07 -0500
+
+
+Started GET "/assets/restaurant.png" for 127.0.0.1 at 2015-01-18 13:28:07 -0500
+
+
+Started GET "/posts/2" for 127.0.0.1 at 2015-01-18 13:28:09 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (0.4ms)[0m  [1mSELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mComment Load (0.4ms)[0m  SELECT "comments".* FROM "comments" INNER JOIN (
+  SELECT descendant_id, MAX(generations) as depth
+  FROM "comment_hierarchies"
+  GROUP BY descendant_id
+  HAVING MAX(generations) <= 4
+) AS generation_depth
+  ON "comments".id = generation_depth.descendant_id WHERE "comments"."post_id" = $1  ORDER BY generation_depth.depth, created_at DESC  [["post_id", 2]]
+  [1m[36mActsAsTaggableOn::Tag Load (0.3ms)[0m  [1mSELECT "tags".* FROM "tags" INNER JOIN "taggings" ON "tags"."id" = "taggings"."tag_id" WHERE "taggings"."taggable_id" = $1 AND "taggings"."taggable_type" = $2 AND "taggings"."context" = 'tags'[0m  [["taggable_id", 2], ["taggable_type", "Post"]]
+  Rendered posts/show.html.erb within layouts/application (2.6ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered layouts/_nav.erb (1.5ms)
+Completed 200 OK in 84ms (Views: 79.0ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/tagged?tag=fastfood" for 127.0.0.1 at 2015-01-18 13:28:10 -0500
+Processing by PostsController#tagged as HTML
+  Parameters: {"tag"=>"fastfood"}
+  [1m[36mActsAsTaggableOn::Tag Load (0.3ms)[0m  [1mSELECT "tags".* FROM "tags"  WHERE (LOWER(name) = LOWER('fastfood'))[0m
+  [1m[35mPost Load (0.4ms)[0m  SELECT "posts".* FROM "posts" JOIN taggings posts_taggings_774c5ac  ON posts_taggings_774c5ac.taggable_id = "posts".id AND posts_taggings_774c5ac.taggable_type = 'Post' AND posts_taggings_774c5ac.tag_id = 2
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 2], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 2], ["votable_type", "Post"]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  Rendered posts/index.html.erb within layouts/application (5.3ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered layouts/_nav.erb (1.2ms)
+Completed 200 OK in 81ms (Views: 77.9ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/posts/2" for 127.0.0.1 at 2015-01-18 13:28:14 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (0.4ms)[0m  [1mSELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mComment Load (0.5ms)[0m  SELECT "comments".* FROM "comments" INNER JOIN (
+  SELECT descendant_id, MAX(generations) as depth
+  FROM "comment_hierarchies"
+  GROUP BY descendant_id
+  HAVING MAX(generations) <= 4
+) AS generation_depth
+  ON "comments".id = generation_depth.descendant_id WHERE "comments"."post_id" = $1  ORDER BY generation_depth.depth, created_at DESC  [["post_id", 2]]
+  [1m[36mActsAsTaggableOn::Tag Load (0.5ms)[0m  [1mSELECT "tags".* FROM "tags" INNER JOIN "taggings" ON "tags"."id" = "taggings"."tag_id" WHERE "taggings"."taggable_id" = $1 AND "taggings"."taggable_type" = $2 AND "taggings"."context" = 'tags'[0m  [["taggable_id", 2], ["taggable_type", "Post"]]
+  Rendered posts/show.html.erb within layouts/application (3.3ms)
+  [1m[35mUser Load (0.5ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered layouts/_nav.erb (2.0ms)
+Completed 200 OK in 110ms (Views: 104.3ms | ActiveRecord: 1.8ms)
+
+
+Started GET "/tagged?tag=mexican" for 127.0.0.1 at 2015-01-18 13:28:15 -0500
+Processing by PostsController#tagged as HTML
+  Parameters: {"tag"=>"mexican"}
+  [1m[36mActsAsTaggableOn::Tag Load (0.3ms)[0m  [1mSELECT "tags".* FROM "tags"  WHERE (LOWER(name) = LOWER('mexican'))[0m
+  [1m[35mPost Load (0.5ms)[0m  SELECT "posts".* FROM "posts" JOIN taggings posts_taggings_f3b3c91  ON posts_taggings_f3b3c91.taggable_id = "posts".id AND posts_taggings_f3b3c91.taggable_type = 'Post' AND posts_taggings_f3b3c91.tag_id = 1
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 2], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 2], ["votable_type", "Post"]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  Rendered posts/index.html.erb within layouts/application (9.3ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered layouts/_nav.erb (1.2ms)
+Completed 200 OK in 88ms (Views: 84.1ms | ActiveRecord: 1.8ms)
+
+
+Started GET "/assets/css/foundation.min.css?body=1" for 127.0.0.1 at 2015-01-18 13:28:41 -0500
+
+
+Started GET "/assets/css/normalize.css?body=1" for 127.0.0.1 at 2015-01-18 13:28:41 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-18 13:28:41 -0500
+
+
+Started GET "/assets/font-awesome.css?body=1" for 127.0.0.1 at 2015-01-18 13:28:41 -0500
+
+
+Started GET "/tagged?tag=mexican" for 127.0.0.1 at 2015-01-18 13:29:00 -0500
+Processing by PostsController#tagged as HTML
+  Parameters: {"tag"=>"mexican"}
+  [1m[36mActsAsTaggableOn::Tag Load (0.5ms)[0m  [1mSELECT "tags".* FROM "tags"  WHERE (LOWER(name) = LOWER('mexican'))[0m
+  [1m[35mPost Load (0.7ms)[0m  SELECT "posts".* FROM "posts" JOIN taggings posts_taggings_f3b3c91  ON posts_taggings_f3b3c91.taggable_id = "posts".id AND posts_taggings_f3b3c91.taggable_type = 'Post' AND posts_taggings_f3b3c91.tag_id = 1
+  [1m[36m (0.8ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 2], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 2], ["votable_type", "Post"]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  Rendered posts/index.html.erb within layouts/application (16.8ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  Rendered layouts/_nav.erb (0.8ms)
+Completed 200 OK in 96ms (Views: 90.0ms | ActiveRecord: 3.0ms)
+
+
+Started GET "/assets/css/foundation.min.css?body=1" for 127.0.0.1 at 2015-01-18 13:29:00 -0500
+
+
+Started GET "/assets/css/normalize.css?body=1" for 127.0.0.1 at 2015-01-18 13:29:00 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-18 13:29:00 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-18 13:29:00 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-18 13:29:00 -0500
+
+
+Started GET "/assets/font-awesome.css?body=1" for 127.0.0.1 at 2015-01-18 13:29:00 -0500
+
+
+Started GET "/assets/js/foundation.min.js?body=1" for 127.0.0.1 at 2015-01-18 13:29:00 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-18 13:29:00 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-18 13:29:00 -0500
+
+
+Started GET "/assets/restaurant.png" for 127.0.0.1 at 2015-01-18 13:29:00 -0500

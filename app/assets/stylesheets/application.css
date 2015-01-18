@@ -48,6 +48,11 @@
   display: inline-block;
 }
 
+.tag-header {
+  font-family: 'Dosis', sans-serif !important;
+  font-weight: 700;
+}
+
 .post-container {
   margin: 1.5em 0;
   background-color: #9AEF3E;
