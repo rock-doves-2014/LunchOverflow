@@ -9,7 +9,11 @@ class CommentsController < ApplicationController
   end
 
   def new
-    @comment = Comment.new(parent_id: params[:parent_id])
+    if session[:user_id]
+      @comment = Comment.new(parent_id: params[:parent_id])
+    else
+      redirect_to login_path
+    end
   end
 
   def create
