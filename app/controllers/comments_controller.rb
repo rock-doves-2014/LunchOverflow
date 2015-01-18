@@ -35,7 +35,11 @@ class CommentsController < ApplicationController
   end
 
   def edit
-    @comment = Comment.find(params[:id])
+    if session[:user_id]
+      @comment = Comment.find(params[:id])
+    else
+      redirect_to login_path
+    end
   end
 
   def update
