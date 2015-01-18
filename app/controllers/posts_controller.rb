@@ -57,7 +57,7 @@ class PostsController < ApplicationController
   def tagged
     if params[:tag].present?
       @posts = Post.tagged_with(params[:tag])
-      @tag = params[:tag] 
+      @tag = params[:tag]
       render 'index'
     else
       render text: 'no post with this tag'

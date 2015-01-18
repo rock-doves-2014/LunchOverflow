@@ -96,6 +96,35 @@
   font-size: 1.5em;
 }
 
+.post-body {
+  margin: 1.5em 0;
+  padding: 1em 2em;
+  background-color: #A7E9F8;
+  border-radius: 6px;
+}
+
+.post-body h2, h3, h4, h5 {
+  font-family: 'Dosis', sans-serif !important;
+  font-weight: 700;
+}
+
+.post-body p, li, a {
+  font-family: 'Dosis', sans-serif !important;
+  font-weight: 600;
+}
+
+.post-content {
+  margin-top: 1em;
+}
+
+.comments-box {
+  margin-top: 1em;
+  padding: 0.5em;
+  border-radius: 6px;
+  background-color: #B0ECFA;
+}
+
+
 .off-gray {
   color: #9F9D9D !important;
 }
@@ -112,6 +141,18 @@
   color: #448E00;
 }
 
+.dark-blue {
+  color: #1C6177;
+}
+
+.comment-actions {
+  background-color: #A7D7E2;
+  width: 10em;
+  padding: 0em 0.5em;
+  border-radius: 2px;
+  text-align: center;
+}
+
 .form-input-area {
   width: 100%;
 }
@@ -123,6 +164,10 @@
 
 .return-link:hover {
   color: #C1C8C8 !important;
+}
+
+.delete-button {
+  font-family: 'Montserrat', sans-serif !important;
 }
 
 .vote-box {
@@ -155,7 +200,7 @@
 
 @media (max-width: 705px) {
   .navbar {
-    height: 8em;
+    height: 9em;
   }
   .vote-box {
     float: right;

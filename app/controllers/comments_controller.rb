@@ -9,7 +9,11 @@ class CommentsController < ApplicationController
   end
 
   def new
-    @comment = Comment.new(parent_id: params[:parent_id])
+    if session[:user_id]
+      @comment = Comment.new(parent_id: params[:parent_id])
+    else
+      redirect_to login_path
+    end
   end
 
   def create
@@ -31,7 +35,11 @@ class CommentsController < ApplicationController
   end
 
   def edit
-    @comment = Comment.find(params[:id])
+    if session[:user_id]
+      @comment = Comment.find(params[:id])
+    else
+      redirect_to login_path
+    end
   end
 
   def update
@@ -50,15 +58,23 @@ class CommentsController < ApplicationController
   end
 
   def upvote
-    @comment = Comment.find(params[:id])
-    @comment.upvote_by current_user
-    redirect_to post_path(@comment.post)
+    if session[:user_id]
+      @comment = Comment.find(params[:id])
+      @comment.upvote_by current_user
+      redirect_to post_path(@comment.post)
+    else
+      redirect_to login_path
+    end
   end
 
   def downvote
-   @comment = Comment.find(params[:id])
-   @comment.downvote_by current_user
-   redirect_to post_path(@comment.post)
+    if session[:user_id]
+      @comment = Comment.find(params[:id])
+      @comment.downvote_by current_user
+      redirect_to post_path(@comment.post)
+    else
+      redirect_to login_path
+    end
   end
 
 

@@ -1,8 +1,17 @@
 <li>
-  <strong><%= comment.user.user_name %></strong> says <%= comment.content %>
-  <%=  link_to 'upvote', upvote_comment_path(comment), method: :put%>
-  <%= comment.get_upvotes.size %>
-  <%=  link_to 'downvote', downvote_comment_path(comment), method: :put%>
-  <%= comment.get_downvotes.size %>
-  <%= link_to 'reply', "/posts/#{@post.id}/comments/new/#{comment.id}" %>
+  <strong class="dark-blue"><%= comment.user.user_name %></strong> <%= comment.content %>
+  <div class="comment-actions">
+    <%= comment.get_upvotes.size %>
+    <%=  link_to upvote_comment_path(comment), method: :put, class: "vote-buttons dark-blue" do %>
+      <i class="fa fa-thumbs-up"></i>
+    <% end %>
+    <%= comment.get_downvotes.size %>
+    <%=  link_to downvote_comment_path(comment), method: :put, class: "vote-buttons dark-blue" do%>
+      <i class="fa fa-thumbs-down"></i>
+    <% end %>
+    <%= link_to 'reply', "/posts/#{@post.id}/comments/new/#{comment.id}" %>
+    <% if current_user == comment.user %>
+      <%= link_to 'delete', comment_path(comment), method: :delete, data: { confirm: 'Are you sure you want to delete the comment?' } %>
+    <% end %>
+  </div>
 </li>

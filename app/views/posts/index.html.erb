@@ -1,5 +1,7 @@
 <div class="index-body small-12 medium-8 medium-centered columns">
-  <h3 class="tag-header off-white text-center">Returning results for <%= @tag if @tag %></h3>
+  <% if @tag %>
+    <h3 class="tag-header off-white text-center">Returning results for <%= @tag %></h3>
+  <% end %>
   <% @posts.each do |post| %>
     <div class="post-container small-12 medium-12 medium-centered large-8 large-centered columns">
       <div class="row">
