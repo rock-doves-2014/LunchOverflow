@@ -1,4 +1,4 @@
-<%=  form_for(:session, url: sessions_path) do |f|  %>
+<%=  form_for @user do |f|  %>
   <%= f.label :username, class: "form-input-label" %><br>
   <%= f.text_field :user_name, class: "form-input-area" %><br>
   <%= f.label :email, class: "form-input-label" %><br>
