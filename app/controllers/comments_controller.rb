@@ -1,7 +1,8 @@
 class CommentsController < ApplicationController
 
   def index
-    @comments = Comment.all
+    user = User.find(current_user)
+    @comments = user.comments
   end
 
   def show
