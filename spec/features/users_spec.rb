@@ -9,7 +9,7 @@ feature 'User managment' do
     fill_in 'user_email', with: attributes_for(:user)[:email]
     fill_in 'user_password', with: attributes_for(:user)[:password]
 
-    click_button 'create_user'
+    click_button 'Signup'
     }.to change(User, :count).by(1)
 
   end
