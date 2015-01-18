@@ -1,5 +1,9 @@
-<%= form_for(:comment, url: post_comments_path) do |f| %>
-  <%= f.label(:content) %>
-  <%= f.text_field(:content) %>
-  <%= f.submit %>
-<% end %>
+<div class="small-6 small-centered large-4 large-centered columns">
+  <div class="form-container text-center">
+    <%= form_for(:comment, url: post_comments_path) do |f| %>
+      <%= f.label :say_something, class: "form-input-label" %><br>
+      <%= f.text_field :content, class: "comment-input-area" %><br>
+      <%= f.submit 'Comment', class: "button radius expand form-button" %>
+    <% end %>
+  </div>
+</div>
