@@ -1,10 +1,25 @@
-<% @posts.each do |post| %>
-  <h2><a href="/posts/<%= post.id %>"><%= post.title %></a></h2>
-  <%=  link_to 'upvote', upvote_post_path(post), method: :put%>
-  <%=  link_to 'downvote', downvote_post_path(post), method: :put%>
-  <%= post.get_upvotes.size %>
-<% end %>
+<div class="index-body small-12 medium-8 medium-centered columns">
 
-<% if current_user %>
-  <%= link_to 'Add Post', new_post_path %>
-<% end %>
+  <% @posts.each do |post| %>
+    <div class="post-container small-12 medium-12 medium-centered large-8 large-centered columns">
+      <div class="row">
+        <div class="small-12 medium-9 large-8 columns">
+          <h2><i class="fa fa-cutlery green"></i> <a href="/posts/<%= post.id %>"><%= post.title %></a></h2>
+        </div>
+        <div class="small-12 medium-3 large-4 columns">
+          <div class="vote-box">
+            <%= post.get_upvotes.size %>
+            <%=  link_to 'up', upvote_post_path(post), method: :put%>
+            <%=  link_to 'down', downvote_post_path(post), method: :put%>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% if current_user %>
+    <%= link_to 'Add Post', new_post_path %>
+  <% end %>
+
+</div>
+
