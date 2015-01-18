@@ -116,6 +116,10 @@
   height: 4em;
 }
 
+.return-link:hover {
+  color: #C1C8C8 !important;
+}
+
 .vote-box {
   float: right;
 }

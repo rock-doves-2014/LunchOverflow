@@ -5,5 +5,6 @@
       <%= f.text_field :content, class: "comment-input-area" %><br>
       <%= f.submit 'Comment', class: "button radius expand form-button" %>
     <% end %>
+    <%= link_to 'Return to previous page', post_path(params[:post_id]), class: "return-link off-white" %>
   </div>
 </div>
