@@ -23,11 +23,12 @@
       </div>
     </div>
   <% end %>
-
-  <div onclick="location.href='/posts/new';" class="suggest-container small-12 medium-12 medium-centered large-8 large-centered columns">
-    <% if current_user %>
+  <% if current_user %>
+    <div onclick="location.href='/posts/new';" class="suggest-container small-12 medium-12 medium-centered large-8 large-centered columns">
       <h3 class="text-center"><%= link_to 'Suggest a place to eat!', new_post_path, class: "suggest-button" %></h3>
-    <% end %>
-  </div>
-
+    </div>
+  <% else %>
+    <div onclick="location.href='/login';" class="suggest-container small-12 medium-12 medium-centered large-8 large-centered columns">
+      <h3 class="text-center"><%= link_to 'Please login to suggest!', login_path, class: "suggest-button" %></h3>
+  <% end %>
 </div>
