@@ -1,13 +1,9 @@
-<%= form_for @user do |f| %>
-  <%= f.label :user_name %>
-  <%= f.text_field :user_name %>
-  <br>
-  <%= f.label :email %>
-  <%= f.text_field :email %>
-  <br>
-  <%= f.label :password %>
-  <%= f.password_field :password %>
-  <br>
-  <%= f.submit id: 'create_user' %>
+<%=  form_for(:session, url: sessions_path) do |f|  %>
+  <%= f.label :username, class: "form-input-label" %><br>
+  <%= f.text_field :user_name, class: "form-input-area" %><br>
+  <%= f.label :email, class: "form-input-label" %><br>
+  <%= f.password_field :email, class: "form-input-area" %><br>
+  <%= f.label :password, class: "form-input-label" %><br>
+  <%= f.password_field :password, class: "form-input-area" %><br>
+  <%= f.submit 'Signup', class: "button success radius expand form-button"  %>
 <% end %>
-
