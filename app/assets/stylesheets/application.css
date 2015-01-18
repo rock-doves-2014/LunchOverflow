@@ -62,6 +62,7 @@
 }
 
 .suggest-container {
+  padding: 0.5em;
   margin: 1.5em 0;
   background-color: #2B811D;
   border-radius: 6px;
@@ -84,6 +85,10 @@
 
 .green {
   color: #6BCD00;
+}
+
+.dark-green {
+  color: #448E00;
 }
 
 .vote-box {

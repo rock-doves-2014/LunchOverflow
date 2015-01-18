@@ -3,18 +3,19 @@
   <% @posts.each do |post| %>
     <div class="post-container small-12 medium-12 medium-centered large-8 large-centered columns">
       <div class="row">
-        <div class="small-12 medium-7 large-8 columns">
-          <h2><i class="fa fa-cutlery green"></i> <a href="/posts/<%= post.id %>" class="post-link"><%= post.title %></a></h2>
+        <div class="small-8 medium-7 large-8 columns">
+          <h3><i class="fa fa-cutlery green"></i> <a href="/posts/<%= post.id %>" class="post-link"><%= post.title %></a></h3>
         </div>
-        <div class="small-12 medium-5 large-4 columns">
+        <div class="small-4 medium-5 large-4 columns">
           <div class="vote-box">
-            <h2 class="off-white"><%= post.get_upvotes.size %> <%= post.get_downvotes.size %>
+            <h3 class="dark-green"><strong><%= post.get_upvotes.size %></strong>
             <%=  link_to upvote_post_path(post), method: :put, class: "vote-buttons" do %>
-              <i class="fa fa-arrow-up"></i>
+              <i class="fa fa-thumbs-up"></i>
             <% end %>
+            <strong><%= post.get_downvotes.size %></strong>
             <%=  link_to downvote_post_path(post), method: :put, class: "vote-buttons" do %>
-              <i class="fa fa-arrow-down"></i>
-            <% end %></h2>
+              <i class="fa fa-thumbs-down"></i>
+            <% end %></h3>
           </div>
         </div>
       </div>
@@ -23,7 +24,7 @@
 
   <div onclick="location.href='/posts/new';" class="suggest-container small-12 medium-12 medium-centered large-8 large-centered columns">
     <% if current_user %>
-      <h2 class="text-center"><%= link_to 'Suggest a place to eat!', new_post_path, class: "suggest-button" %></h2>
+      <h3 class="text-center"><%= link_to 'Suggest a place to eat!', new_post_path, class: "suggest-button" %></h3>
     <% end %>
   </div>
 
