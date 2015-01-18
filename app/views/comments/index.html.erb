@@ -1,0 +1,12 @@
+<div class="post-body small-12 medium-8 medium-centered columns">
+  <h2 class="medium-centered large-8 large-centered columns"><i class="fa fa-cutlery green"></i> YourComments</h2>
+  <% @comments.each do |comment| %>
+    <div class="post-container small-12 medium-12 medium-centered large-8 large-centered columns">
+      <div class="row">
+        <div class="small-8 medium-7 large-8 columns">
+          <h3><i class="fa fa-comment green"></i> <a href="#" class="post-link"><%= comment.content %></a></h3>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
