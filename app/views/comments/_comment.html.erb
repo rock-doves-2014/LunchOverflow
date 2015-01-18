@@ -1,0 +1,8 @@
+<li>
+  <strong><%= comment.user.user_name %></strong> says <%= comment.content %>
+  <%=  link_to 'upvote', upvote_comment_path(comment), method: :put%>
+  <%= comment.get_upvotes.size %>
+  <%=  link_to 'downvote', downvote_comment_path(comment), method: :put%>
+  <%= comment.get_downvotes.size %>
+  <%= link_to 'reply', "/posts/#{@post.id}/comments/new/#{comment.id}" %>
+</li>
