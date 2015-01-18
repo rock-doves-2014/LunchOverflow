@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150118153931) do
-Add setup for gem acts_as_taggable
+ActiveRecord::Schema.define(version: 20150118160652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
