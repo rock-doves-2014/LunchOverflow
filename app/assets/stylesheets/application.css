@@ -87,7 +87,6 @@
 }
 
 .vote-box {
-  margin: 1em 0;
   float: right;
 }
 
@@ -118,5 +117,8 @@
 @media (max-width: 705px) {
   .navbar {
     height: 8em;
+  }
+  .vote-box {
+    float: right;
   }
 }
