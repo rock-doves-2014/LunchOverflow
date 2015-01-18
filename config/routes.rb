@@ -13,13 +13,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :comments do
+  resources :comments do 
     member do
       put 'upvote', to: 'comments#upvote'
       put 'downvote', to: 'comments#downvote'
     end
   end
 
+  get 'tagged', to: 'posts#tagged' 
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
