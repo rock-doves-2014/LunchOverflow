@@ -3,7 +3,7 @@ FactoryGirl.define do
     content { Faker::Lorem.paragraph }
   end
 
-  factory :invalid_contact do
-    firstname nil
+  factory :invalid_comment do
+    content nil
   end
 end
