@@ -13,11 +13,18 @@ class CommentsController < ApplicationController
   end
 
   def create
-    post = Post.find(params[:post_id])
     params[:comment][:user_id] = session[:user_id]
-    @comment = post.comments.new(comment_params)
+    post = Post.find(params[:post_id])
+    params[:comment][:post_id] = post.id
+    if params[:comment][:parent_id].to_i > 0
+      parent = Comment.find_by_id(params[:comment].delete(:parent_id))
+      @comment = parent.children.build(comment_params)
+    else
+      @comment = Comment.new(comment_params)
+    end
+
     if @comment.save
-      redirect_to post_path(params[:post_id])
+      redirect_to post
     else
       render 'new'
     end
@@ -58,7 +65,7 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:content, :user_id)
+    params.require(:comment).permit(:content, :user_id, :post_id)
   end
 
 end
