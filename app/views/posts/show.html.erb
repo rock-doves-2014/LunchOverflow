@@ -9,5 +9,6 @@
   <%= comments_tree_for @comments %>
 </ul>
 
-
-<%= link_to "Add Comment", new_post_comment_path(@post) %>
+<% if current_user %>
+  <%= link_to "Add Comment", new_post_comment_path(@post) %>
+<% end %>
