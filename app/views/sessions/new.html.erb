@@ -1,7 +1,12 @@
-<%=  form_for(:session, url: sessions_path) do |f|  %>
-  <%= f.label :user_name %><br>
-  <%= f.text_field :user_name %><br>
-  <%= f.label :password %><br>
-  <%= f.password_field :password %><br>
-  <%= f.submit 'Login' %>
-<% end %>
+<div class="small-6 small-centered large-4 large-centered columns">
+  <div class="form-container text-center">
+    <%=  form_for(:session, url: sessions_path) do |f|  %>
+      <%= f.label :username, class: "form-input-label" %><br>
+      <%= f.text_field :user_name, class: "form-input-area" %><br>
+      <%= f.label :password, class: "form-input-label" %><br>
+      <%= f.password_field :password, class: "form-input-area" %><br>
+      <%= f.submit 'Login', class: "button radius expand form-button"  %>
+    <% end %>
+    <%= link_to 'Not a member? Click here to sign up!', new_user_path, class: "return-link off-white" %>
+  </div>
+</div>
