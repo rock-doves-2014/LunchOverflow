@@ -1,9 +1,16 @@
-<%= form_for @post do |f| %>
-  <%= f.label :title %><br>
-  <%= f.text_field :title, :placeholder => @post.title %><br>
-  <%= f.label :content %><br>
-  <%= f.text_field :content, :placeholder => @post.content %><br>
-  <%= f.label :address %><br>
-  <%= f.text_field :address, :placeholder => @post.address %><br>
-  <%= f.submit 'Edit' %>
-<% end %>
+<div class="small-10 small-centered large-5 large-centered columns">
+  <div class="form-container text-center">
+    <%= form_for @post do |f| %>
+      <%= f.label :Restaurant, class: "form-input-label" %><br>
+      <%= f.text_field :title, class: "form-input-area", :placeholder => @post.title %><br>
+       <%= f.label :Description, class: "form-input-label" %><br>
+      <%= f.text_area :content, class: "form-input-area", :placeholder => @post.content %><br>
+      <%= f.label :Address, class: "form-input-label" %><br>
+      <%= f.text_field :address, :placeholder => @post.address, class: "form-input-area" %><br>
+      <%= f.label :tags, class: "form-input-label" %>
+      <%= f.text_field :tag_list, :placeholder => @post.tags, class: "form-input-area" %>
+      <%= f.submit 'Edit Post', class: "button radius expand form-button" %>
+    <% end %>
+    <%= link_to 'Return to suggestions', root_path, class: "return-link off-white" %>
+  </div>
+</div>
