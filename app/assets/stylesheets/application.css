@@ -166,6 +166,10 @@
   color: #C1C8C8 !important;
 }
 
+.delete-button {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
 .vote-box {
   float: right;
 }

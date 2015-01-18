@@ -16,6 +16,8 @@
       </ul>
     </div>
   <% end %>
-  <br><%= link_to "return to suggestions page", root_path %>
-
+  <br><%= link_to "return to suggestions page", root_path %><br>
+  <% if current_user == @post.user %>
+    <br><%= link_to 'delete post', post_path(@post), method: :delete, class: "button alert radius small delete-button", data: { confirm: 'Are you sure you want to delete the post?' } %>
+  <% end %>
 </div>
