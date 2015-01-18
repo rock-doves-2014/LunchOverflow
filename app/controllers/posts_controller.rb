@@ -54,10 +54,19 @@ class PostsController < ApplicationController
    redirect_to posts_path
   end
 
+  def tagged
+    if params[:tag].present?
+      @posts = Post.tagged_with(params[:tag])
+      @tag = params[:tag] 
+      render 'index'
+    else
+      render text: 'no post with this tag'
+    end
+  end
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, :address, :user_id)
+    params.require(:post).permit(:title, :content, :address, :user_id, :tag_list)
   end
 
 end
