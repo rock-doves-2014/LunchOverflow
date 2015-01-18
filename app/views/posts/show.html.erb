@@ -2,14 +2,10 @@
 <h4><%= @post.content %></h4>
 
 <h3>Comments</h3>
+
 <ul>
-  <% @post.comments.each do |comment| %>
-    <li><strong><%= comment.user.user_name %></strong> says <%= comment.content %></li>
-    <%=  link_to 'upvote', upvote_comment_path(comment), method: :put%>
-    <%= comment.get_upvotes.size %>
-    <%=  link_to 'downvote', downvote_comment_path(comment), method: :put%>
-    <%= comment.get_downvotes.size %>
-  <% end %>
+  <%= render @comments %>
 </ul>
+
 
 <%= link_to "Add Comment", new_post_comment_path(@post) %>
