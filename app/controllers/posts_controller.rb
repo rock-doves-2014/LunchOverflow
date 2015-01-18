@@ -10,7 +10,11 @@ class PostsController < ApplicationController
   end
 
   def new
-    @post = Post.new
+    if session[:user_id]
+      @post = Post.new
+    else
+      redirect_to login_path
+    end
   end
 
   def create
@@ -24,7 +28,11 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = Post.find(params[:id])
+    if session[:user_id]
+      @post = Post.find(params[:id])
+    else
+      redirect_to login_path
+    end
   end
 
   def update
@@ -43,15 +51,23 @@ class PostsController < ApplicationController
   end
 
   def upvote
-    @post = Post.find(params[:id])
-    @post.upvote_by current_user
-    redirect_to posts_path
+    if session[:user_id]
+      @post = Post.find(params[:id])
+      @post.upvote_by current_user
+      redirect_to posts_path
+    else
+      redirect_to login_path
+    end
   end
 
   def downvote
-   @post = Post.find(params[:id])
-   @post.downvote_by current_user
-   redirect_to posts_path
+    if session[:user_id]
+      @post = Post.find(params[:id])
+      @post.downvote_by current_user
+      redirect_to posts_path
+    else
+      redirect_to login_path
+    end
   end
 
   def tagged
