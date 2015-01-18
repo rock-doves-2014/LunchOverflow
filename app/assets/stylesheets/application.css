@@ -147,9 +147,10 @@
 
 .comment-actions {
   background-color: #A7D7E2;
-  width: 7em;
+  width: 10em;
   padding: 0em 0.5em;
   border-radius: 2px;
+  text-align: center;
 }
 
 .form-input-area {
