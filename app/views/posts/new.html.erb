@@ -1,9 +1,13 @@
-<%= form_for @post do |f| %>
-  <%= f.label :title %><br>
-  <%= f.text_field :title %><br>
-  <%= f.label :content %><br>
-  <%= f.text_field :content %><br>
-  <%= f.label :address %><br>
-  <%= f.text_field :address %><br>
-  <%= f.submit 'Post' %>
-<% end %>
+<div class="small-6 small-centered large-4 large-centered columns">
+  <div class="form-container text-center">
+    <%= form_for @post do |f| %>
+      <%= f.label :Restaurant, class: "form-input-label" %><br>
+      <%= f.text_field :title, class: "form-input-area" %><br>
+       <%= f.label :Description, class: "form-input-label" %><br>
+      <%= f.text_area :content, class: "form-input-area" %><br>
+      <%= f.label :Address, class: "form-input-label" %><br>
+      <%= f.text_field :address, placeholder: "Optional. It would help a lot though!", class: "form-input-area" %><br>
+      <%= f.submit 'Post', class: "button radius expand form-button" %>
+    <% end %>
+  </div>
+</div>

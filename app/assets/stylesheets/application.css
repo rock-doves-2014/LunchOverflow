@@ -75,6 +75,22 @@
   transition: 0.5s ease-in-out;
 }
 
+.form-container {
+  padding: 1em;
+  font-family: 'Dosis', sans-serif !important;
+  font-weight: 500;
+}
+
+.form-button {
+  margin-top: 1em;
+}
+
+.form-input-label {
+  font-weight: 700;
+  color: #E7F9F8;
+  font-size: 1.5em;
+}
+
 .off-gray {
   color: #9F9D9D !important;
 }
@@ -89,6 +105,10 @@
 
 .dark-green {
   color: #448E00;
+}
+
+.form-input-area {
+  width: 100%;
 }
 
 .vote-box {
