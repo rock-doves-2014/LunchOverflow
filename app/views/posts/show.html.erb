@@ -11,7 +11,6 @@
     <%= link_to tag.name, tagged_url(:tag => tag.name) %>
   <% end %></p>
   <p class="post-content"><%= @post.content %></p>
-  <%= link_to "add a comment", new_post_comment_path(@post) %>
 
   <% if @comments.size > 0 %>
     <div class="comments-box">
