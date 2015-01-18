@@ -44,6 +44,8 @@ end
 # Use ActiveModel has_secure_password
  gem 'bcrypt', '~> 3.1.7'
 
+# add for nested comments
+  gem 'closure_tree'
 # Use unicorn as the app server
 # gem 'unicorn'
 
