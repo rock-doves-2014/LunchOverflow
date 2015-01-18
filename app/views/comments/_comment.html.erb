@@ -4,4 +4,5 @@
   <%= comment.get_upvotes.size %>
   <%=  link_to 'downvote', downvote_comment_path(comment), method: :put%>
   <%= comment.get_downvotes.size %>
+  <%= link_to 'reply', "/posts/#{@post.id}/comments/new/#{comment.id}" %>
 </li>
