@@ -12,11 +12,12 @@
   <% end %></p>
   <p class="post-content"><%= @post.content %></p>
 
+<%= link_to "add a comment", new_post_comment_path(@post) %>
+
   <% if @comments.size > 0 %>
     <div class="comments-box">
       <ul class="no-bullet">
         <%= comments_tree_for @comments %>
-        <br><%= link_to "add a comment", new_post_comment_path(@post) %>
       </ul>
     </div>
   <% end %>
