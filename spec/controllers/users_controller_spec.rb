@@ -16,9 +16,9 @@ describe UsersController do
    end
 
    describe "POST #create" do
-     
+
      context "with valid attributes" do
-      
+
        it "creates a contact with the corret information" do
         expect {
           post :create, user: attributes_for(:user)
@@ -28,7 +28,7 @@ describe UsersController do
      end
 
      context "with invalid atributes" do
-      
+
       it "does not save new user on database" do
         expect {
             post :create, user: attributes_for(:invalid_user)

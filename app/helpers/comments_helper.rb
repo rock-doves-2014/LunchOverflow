@@ -1,4 +1,5 @@
 module CommentsHelper
+  # ...runs away....
   def comments_tree_for(comments)
     comments.map do |comment, nested_comments|
       render(comment) +

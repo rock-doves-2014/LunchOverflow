@@ -51,6 +51,12 @@ class PostsController < ApplicationController
   end
 
   def upvote
+    # Sometimes you can write an implementation, but not express the meaning.
+    # I would much prefer to see `if current_user`.  Reason being thinking
+    # about sessions and keys makes my brain hurt and I don't understand what
+    # you _intention_ is.  Sometimes you take pieces of implementation and wrap
+    # them in an English-friendly name so that your collaborators can
+    # understand your _intention_.
     if session[:user_id]
       @post = Post.find(params[:id])
       @post.upvote_by current_user

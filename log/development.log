@@ -31614,3 +31614,629 @@ Processing by PostsController#show as HTML
   [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
   Rendered layouts/_nav.erb (1.6ms)
 Completed 200 OK in 160ms (Views: 147.8ms | ActiveRecord: 9.0ms)
+  [1m[36m (120.4ms)[0m  [1mDROP DATABASE IF EXISTS "LunchOverflow_development"[0m
+  [1m[35m (238.6ms)[0m  CREATE DATABASE "LunchOverflow_development" ENCODING = 'unicode'
+  [1m[36mSQL (1.4ms)[0m  [1mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (6.9ms)[0m  CREATE TABLE "comment_hierarchies" ("ancestor_id" integer NOT NULL, "descendant_id" integer NOT NULL, "generations" integer NOT NULL) 
+  [1m[36m (4.4ms)[0m  [1mCREATE UNIQUE INDEX  "comment_anc_desc_udx" ON "comment_hierarchies" USING btree ("ancestor_id", "descendant_id", "generations")[0m
+  [1m[35m (2.0ms)[0m  CREATE  INDEX  "comment_desc_idx" ON "comment_hierarchies" USING btree ("descendant_id")
+  [1m[36m (6.4ms)[0m  [1mCREATE TABLE "comments" ("id" serial primary key, "content" character varying(255) NOT NULL, "user_id" integer, "post_id" integer, "created_at" timestamp, "updated_at" timestamp, "parent_id" integer) [0m
+  [1m[35m (5.5ms)[0m  CREATE TABLE "posts" ("id" serial primary key, "title" character varying(255) NOT NULL, "content" character varying(255) NOT NULL, "address" character varying(255), "user_id" integer, "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (7.1ms)[0m  [1mCREATE TABLE "taggings" ("id" serial primary key, "tag_id" integer, "taggable_id" integer, "taggable_type" character varying(255), "tagger_id" integer, "tagger_type" character varying(255), "context" character varying(128), "created_at" timestamp) [0m
+  [1m[35m (1.5ms)[0m  CREATE UNIQUE INDEX  "taggings_idx" ON "taggings" USING btree ("tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type")
+  [1m[36m (1.9ms)[0m  [1mCREATE  INDEX  "index_taggings_on_taggable_id_and_taggable_type_and_context" ON "taggings" USING btree ("taggable_id", "taggable_type", "context")[0m
+  [1m[35m (25.4ms)[0m  CREATE TABLE "tags" ("id" serial primary key, "name" character varying(255), "taggings_count" integer DEFAULT 0) 
+  [1m[36m (1.8ms)[0m  [1mCREATE UNIQUE INDEX  "index_tags_on_name" ON "tags" USING btree ("name")[0m
+  [1m[35m (7.0ms)[0m  CREATE TABLE "users" ("id" serial primary key, "user_name" character varying(255) NOT NULL, "email" character varying(255) NOT NULL, "created_at" timestamp, "updated_at" timestamp, "password_digest" character varying(255) NOT NULL) 
+  [1m[36m (7.4ms)[0m  [1mCREATE TABLE "votes" ("id" serial primary key, "votable_id" integer, "votable_type" character varying(255), "voter_id" integer, "voter_type" character varying(255), "vote_flag" boolean, "vote_scope" character varying(255), "vote_weight" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (1.9ms)[0m  CREATE  INDEX  "index_votes_on_votable_id_and_votable_type_and_vote_scope" ON "votes" USING btree ("votable_id", "votable_type", "vote_scope")
+  [1m[36m (1.4ms)[0m  [1mCREATE  INDEX  "index_votes_on_voter_id_and_voter_type_and_vote_scope" ON "votes" USING btree ("voter_id", "voter_type", "vote_scope")[0m
+  [1m[35m (6.5ms)[0m  CREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) 
+  [1m[36m (12.8ms)[0m  [1mCREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")[0m
+  [1m[35m (0.5ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (5.6ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150118160652')[0m
+  [1m[35m (0.9ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150115213756')
+  [1m[36m (0.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150115213813')[0m
+  [1m[35m (0.6ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150115213824')
+  [1m[36m (0.6ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150115225322')[0m
+  [1m[35m (0.6ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150117010614')
+  [1m[36m (0.6ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150118153928')[0m
+  [1m[35m (0.3ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150118153929')
+  [1m[36m (0.2ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150118153930')[0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150118153931')
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150118160625')[0m
+  [1m[35m (121.5ms)[0m  DROP DATABASE IF EXISTS "LunchOverflow_test"
+  [1m[36m (239.7ms)[0m  [1mCREATE DATABASE "LunchOverflow_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (0.3ms)[0m  CREATE EXTENSION IF NOT EXISTS "plpgsql"
+  [1m[36m (3.9ms)[0m  [1mCREATE TABLE "comment_hierarchies" ("ancestor_id" integer NOT NULL, "descendant_id" integer NOT NULL, "generations" integer NOT NULL) [0m
+  [1m[35m (1.6ms)[0m  CREATE UNIQUE INDEX  "comment_anc_desc_udx" ON "comment_hierarchies" USING btree ("ancestor_id", "descendant_id", "generations")
+  [1m[36m (1.1ms)[0m  [1mCREATE  INDEX  "comment_desc_idx" ON "comment_hierarchies" USING btree ("descendant_id")[0m
+  [1m[35m (3.5ms)[0m  CREATE TABLE "comments" ("id" serial primary key, "content" character varying(255) NOT NULL, "user_id" integer, "post_id" integer, "created_at" timestamp, "updated_at" timestamp, "parent_id" integer) 
+  [1m[36m (3.4ms)[0m  [1mCREATE TABLE "posts" ("id" serial primary key, "title" character varying(255) NOT NULL, "content" character varying(255) NOT NULL, "address" character varying(255), "user_id" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (4.1ms)[0m  CREATE TABLE "taggings" ("id" serial primary key, "tag_id" integer, "taggable_id" integer, "taggable_type" character varying(255), "tagger_id" integer, "tagger_type" character varying(255), "context" character varying(128), "created_at" timestamp) 
+  [1m[36m (1.9ms)[0m  [1mCREATE UNIQUE INDEX  "taggings_idx" ON "taggings" USING btree ("tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type")[0m
+  [1m[35m (1.9ms)[0m  CREATE  INDEX  "index_taggings_on_taggable_id_and_taggable_type_and_context" ON "taggings" USING btree ("taggable_id", "taggable_type", "context")
+  [1m[36m (6.1ms)[0m  [1mCREATE TABLE "tags" ("id" serial primary key, "name" character varying(255), "taggings_count" integer DEFAULT 0) [0m
+  [1m[35m (2.7ms)[0m  CREATE UNIQUE INDEX  "index_tags_on_name" ON "tags" USING btree ("name")
+  [1m[36m (3.9ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "user_name" character varying(255) NOT NULL, "email" character varying(255) NOT NULL, "created_at" timestamp, "updated_at" timestamp, "password_digest" character varying(255) NOT NULL) [0m
+  [1m[35m (4.2ms)[0m  CREATE TABLE "votes" ("id" serial primary key, "votable_id" integer, "votable_type" character varying(255), "voter_id" integer, "voter_type" character varying(255), "vote_flag" boolean, "vote_scope" character varying(255), "vote_weight" integer, "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (1.1ms)[0m  [1mCREATE  INDEX  "index_votes_on_votable_id_and_votable_type_and_vote_scope" ON "votes" USING btree ("votable_id", "votable_type", "vote_scope")[0m
+  [1m[35m (1.2ms)[0m  CREATE  INDEX  "index_votes_on_voter_id_and_voter_type_and_vote_scope" ON "votes" USING btree ("voter_id", "voter_type", "vote_scope")
+  [1m[36m (1.7ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [1m[35m (2.8ms)[0m  CREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")
+  [1m[36m (0.7ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (0.8ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150118160652')
+  [1m[36m (0.8ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150115213756')[0m
+  [1m[35m (0.7ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150115213813')
+  [1m[36m (0.7ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150115213824')[0m
+  [1m[35m (0.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150115225322')
+  [1m[36m (0.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150117010614')[0m
+  [1m[35m (0.6ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150118153928')
+  [1m[36m (0.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150118153929')[0m
+  [1m[35m (0.3ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150118153930')
+  [1m[36m (0.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150118153931')[0m
+  [1m[35m (0.7ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150118160625')
+  [1m[36mActiveRecord::SchemaMigration Load (1.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (6.4ms)[0m  [1mINSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["address", "Mohamed Cliff"], ["content", "Streamlined interactive firmware"], ["created_at", "2015-01-19 16:24:08.141814"], ["title", "Mills Inc"], ["updated_at", "2015-01-19 16:24:08.141814"], ["user_id", 4]]
+  [1m[35m (5.7ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["address", "Jefferey Meadow"], ["content", "Adaptive multi-state analyzer"], ["created_at", "2015-01-19 16:24:08.157600"], ["title", "Schoen-Schmeler"], ["updated_at", "2015-01-19 16:24:08.157600"], ["user_id", 4]]
+  [1m[36m (5.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["address", "Mraz Park"], ["content", "Object-based methodical definition"], ["created_at", "2015-01-19 16:24:08.166158"], ["title", "Okuneva and Sons"], ["updated_at", "2015-01-19 16:24:08.166158"], ["user_id", 3]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["address", "Sanford Springs"], ["content", "Front-line transitional open system"], ["created_at", "2015-01-19 16:24:08.169501"], ["title", "Beahan Inc"], ["updated_at", "2015-01-19 16:24:08.169501"], ["user_id", 1]]
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["address", "Adolf Creek"], ["content", "Persevering needs-based algorithm"], ["created_at", "2015-01-19 16:24:08.173492"], ["title", "Stehr-VonRueden"], ["updated_at", "2015-01-19 16:24:08.173492"], ["user_id", 2]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["address", "Flavio Bridge"], ["content", "Compatible static matrix"], ["created_at", "2015-01-19 16:24:08.177168"], ["title", "Schuster, Witting and Renner"], ["updated_at", "2015-01-19 16:24:08.177168"], ["user_id", 3]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["address", "Myah Coves"], ["content", "Open-architected multi-state info-mediaries"], ["created_at", "2015-01-19 16:24:08.179924"], ["title", "Jacobs-Jacobson"], ["updated_at", "2015-01-19 16:24:08.179924"], ["user_id", 3]]
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["address", "Freddy Ferry"], ["content", "Diverse empowering approach"], ["created_at", "2015-01-19 16:24:08.182960"], ["title", "O'Kon, Corkery and Dickinson"], ["updated_at", "2015-01-19 16:24:08.182960"], ["user_id", 1]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["address", "Conn Lights"], ["content", "Front-line actuating workforce"], ["created_at", "2015-01-19 16:24:08.185800"], ["title", "Marvin Group"], ["updated_at", "2015-01-19 16:24:08.185800"], ["user_id", 4]]
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "posts" ("address", "content", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["address", "Kuhic Mountain"], ["content", "Managed clear-thinking model"], ["created_at", "2015-01-19 16:24:08.187702"], ["title", "Legros, Shields and Graham"], ["updated_at", "2015-01-19 16:24:08.187702"], ["user_id", 2]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Ullam rerum aut dignissimos."], ["created_at", "2015-01-19 16:24:08.221188"], ["post_id", 10], ["updated_at", "2015-01-19 16:24:08.221188"], ["user_id", 2]]
+  [1m[35m (0.8ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS tdbac201769082cc95947959294da039b
+  [1m[36mSQL (11.9ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 1], ["descendant_id", 1], ["generations", 0]]
+  [1m[35mComment Load (6.4ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 1]]
+  [1m[36m (0.3ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t206fd95bb352e5a925690f9233c2dca5[0m
+  [1m[35m (6.5ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Quis ipsum quae laborum in aperiam."], ["created_at", "2015-01-19 16:24:08.283254"], ["post_id", 10], ["updated_at", "2015-01-19 16:24:08.283254"], ["user_id", 2]]
+  [1m[36m (0.1ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t68ed1dfe93ddcb52e5e7774ebb02a2d8[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 2], ["descendant_id", 2], ["generations", 0]]
+  [1m[36mComment Load (0.3ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 2]]
+  [1m[35m (0.2ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t118c2753913c2d09ea375944763b8265
+  [1m[36m (4.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Hic consectetur ut aperiam quia corporis eum."], ["created_at", "2015-01-19 16:24:08.295980"], ["post_id", 7], ["updated_at", "2015-01-19 16:24:08.295980"], ["user_id", 4]]
+  [1m[35m (0.2ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS ta9ce8267d150dab4a079036d7c30dd8f
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 3], ["descendant_id", 3], ["generations", 0]]
+  [1m[35mComment Load (0.4ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 3]]
+  [1m[36m (0.5ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS tdb14ba16576205ce0f7b2d0c9cb7512c[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Enim incidunt soluta eum quia non quia."], ["created_at", "2015-01-19 16:24:08.304271"], ["post_id", 10], ["updated_at", "2015-01-19 16:24:08.304271"], ["user_id", 5]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t47b631f642b8a6be01172448fc2814d4[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 4], ["descendant_id", 4], ["generations", 0]]
+  [1m[36mComment Load (0.4ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 4]]
+  [1m[35m (0.2ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t4694b010f30469c61cee554ef13d2e47
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Earum vitae consectetur sed consequatur."], ["created_at", "2015-01-19 16:24:08.314202"], ["post_id", 9], ["updated_at", "2015-01-19 16:24:08.314202"], ["user_id", 5]]
+  [1m[35m (0.4ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t7fbf5ab760337404e2d61e70de35b8fe
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 5], ["descendant_id", 5], ["generations", 0]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 5]]
+  [1m[36m (0.1ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t52b4c0ce70169dcf68e0255513489a79[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Fugit nesciunt hic et nobis unde repellat."], ["created_at", "2015-01-19 16:24:08.321452"], ["post_id", 6], ["updated_at", "2015-01-19 16:24:08.321452"], ["user_id", 5]]
+  [1m[36m (0.1ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS ta67d1f36ca5ade4e686a3936538a1d4c[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 6], ["descendant_id", 6], ["generations", 0]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 6]]
+  [1m[35m (0.1ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t29a94b58967f5719720eb322f0a76eb5
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Et error ipsa necessitatibus autem."], ["created_at", "2015-01-19 16:24:08.326573"], ["post_id", 1], ["updated_at", "2015-01-19 16:24:08.326573"], ["user_id", 1]]
+  [1m[35m (0.1ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t93ac11c8fc1542fc484081be1e5cd86d
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 7], ["descendant_id", 7], ["generations", 0]]
+  [1m[35mComment Load (0.1ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 7]]
+  [1m[36m (0.1ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t395c6d86474a79ec8ea837e5869bd207[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Sunt corporis explicabo ut quia."], ["created_at", "2015-01-19 16:24:08.331827"], ["post_id", 2], ["updated_at", "2015-01-19 16:24:08.331827"], ["user_id", 2]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS tee5eb80c26f72daa2d6a445533ed61c7[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 8], ["descendant_id", 8], ["generations", 0]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 8]]
+  [1m[35m (0.2ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t434203179ca320c539f67e8bcf45815a
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Vitae maxime aliquid reprehenderit."], ["created_at", "2015-01-19 16:24:08.339191"], ["post_id", 3], ["updated_at", "2015-01-19 16:24:08.339191"], ["user_id", 2]]
+  [1m[35m (0.2ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS td9ba23791d35de06931d82c67d1f31c9
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 9], ["descendant_id", 9], ["generations", 0]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 9]]
+  [1m[36m (0.3ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t00562f96184ea4ba2c5e5e4cb3dd1a65[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Mollitia fuga maiores eaque."], ["created_at", "2015-01-19 16:24:08.346882"], ["post_id", 4], ["updated_at", "2015-01-19 16:24:08.346882"], ["user_id", 4]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS te93837d9f124018cb1cacf3b6aa2a4b9[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 10], ["descendant_id", 10], ["generations", 0]]
+  [1m[36mComment Load (0.1ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 10]]
+  [1m[35m (0.1ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t4071147a01d97bff565c6e582a74cb62
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Odit corporis laborum sed."], ["created_at", "2015-01-19 16:24:08.353520"], ["post_id", 3], ["updated_at", "2015-01-19 16:24:08.353520"], ["user_id", 2]]
+  [1m[35m (0.1ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t6276526725b5d793a04ae8af38ce59dd
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 11], ["descendant_id", 11], ["generations", 0]]
+  [1m[35mComment Load (0.1ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 11]]
+  [1m[36m (0.1ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t9ec7ca32a3c359be6841d247edf76673[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Suscipit voluptatem consequuntur sit ipsam."], ["created_at", "2015-01-19 16:24:08.358812"], ["post_id", 4], ["updated_at", "2015-01-19 16:24:08.358812"], ["user_id", 1]]
+  [1m[36m (0.1ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t4063e76fcee72b4bff4396018eb2c20c[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 12], ["descendant_id", 12], ["generations", 0]]
+  [1m[36mComment Load (0.1ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 12]]
+  [1m[35m (0.1ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t9cceed85eff743c1806dfcd4cf97813b
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Consectetur pariatur et iste nulla."], ["created_at", "2015-01-19 16:24:08.364415"], ["post_id", 3], ["updated_at", "2015-01-19 16:24:08.364415"], ["user_id", 5]]
+  [1m[35m (0.1ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t996b5f6c3fde3dd837314938926a723a
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 13], ["descendant_id", 13], ["generations", 0]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 13]]
+  [1m[36m (0.3ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t735ffa6f948675c7f9c92fef84d0ab80[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Exercitationem placeat et repudiandae dolore sed."], ["created_at", "2015-01-19 16:24:08.371913"], ["post_id", 6], ["updated_at", "2015-01-19 16:24:08.371913"], ["user_id", 3]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t50222bfdaec1c7ed89aababbc1e26a14[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 14], ["descendant_id", 14], ["generations", 0]]
+  [1m[36mComment Load (0.3ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 14]]
+  [1m[35m (0.4ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t192e2a6bef94fe73328b322ba873da2c
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Dolores temporibus quasi tempora laborum ipsam."], ["created_at", "2015-01-19 16:24:08.379573"], ["post_id", 1], ["updated_at", "2015-01-19 16:24:08.379573"], ["user_id", 2]]
+  [1m[35m (0.3ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t6e0e321f1e31ef5b3fd4b5f507859020
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 15], ["descendant_id", 15], ["generations", 0]]
+  [1m[35mComment Load (0.1ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 15]]
+  [1m[36m (0.1ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t449c2c2dcbacc10e5469f27ca127e10a[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Autem et non illo iste."], ["created_at", "2015-01-19 16:24:08.386564"], ["post_id", 4], ["updated_at", "2015-01-19 16:24:08.386564"], ["user_id", 3]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t4eb785eb11f3bf25dd0753a0f0a7ab96[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 16], ["descendant_id", 16], ["generations", 0]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 16]]
+  [1m[35m (0.2ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS tc9c319a3e335f557e5a6e990b62ec58b
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Eaque modi inventore dignissimos."], ["created_at", "2015-01-19 16:24:08.393725"], ["post_id", 7], ["updated_at", "2015-01-19 16:24:08.393725"], ["user_id", 4]]
+  [1m[35m (0.2ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t65a4d412bed5ab1e732743f53f7c6523
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 17], ["descendant_id", 17], ["generations", 0]]
+  [1m[35mComment Load (0.4ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 17]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS tab1643ab284e9992a45863ecedc76888[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Animi rem aut voluptatum earum dolorum minima."], ["created_at", "2015-01-19 16:24:08.402111"], ["post_id", 3], ["updated_at", "2015-01-19 16:24:08.402111"], ["user_id", 1]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t0e4fd2879b183246d2c965c2ccdfb7e8[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 18], ["descendant_id", 18], ["generations", 0]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 18]]
+  [1m[35m (0.3ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t7fe72c7a4df10bcde19facce84c4598f
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Odit ratione sed pariatur ab unde."], ["created_at", "2015-01-19 16:24:08.409669"], ["post_id", 4], ["updated_at", "2015-01-19 16:24:08.409669"], ["user_id", 3]]
+  [1m[35m (0.1ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t0e02ca9923d04b38b1ad06ba13c0226b
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 19], ["descendant_id", 19], ["generations", 0]]
+  [1m[35mComment Load (0.1ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 19]]
+  [1m[36m (0.1ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS tff915d5080bd915bc0c63ff67ac3360f[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Amet rerum aspernatur unde."], ["created_at", "2015-01-19 16:24:08.414560"], ["post_id", 7], ["updated_at", "2015-01-19 16:24:08.414560"], ["user_id", 2]]
+  [1m[36m (0.1ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t77aaddc80a97df2218aa8c7f20b9a15c[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 20], ["descendant_id", 20], ["generations", 0]]
+  [1m[36mComment Load (0.1ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 20]]
+  [1m[35m (0.1ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t1f01cbd992a217aa8e48c81ad6a95bbb
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "In aspernatur impedit ea nesciunt."], ["created_at", "2015-01-19 16:24:08.419244"], ["post_id", 9], ["updated_at", "2015-01-19 16:24:08.419244"], ["user_id", 3]]
+  [1m[35m (0.1ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t1ab67163687895aa815a1d9d007c06da
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 21], ["descendant_id", 21], ["generations", 0]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 21]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t0423dd292b3bad2167c5ecc2f3746981[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Aut perspiciatis fuga non cum vel eius esse adipisci."], ["created_at", "2015-01-19 16:24:08.424798"], ["post_id", 1], ["updated_at", "2015-01-19 16:24:08.424798"], ["user_id", 4]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t871ccc8892087b997026a65d1fde15da[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 22], ["descendant_id", 22], ["generations", 0]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 22]]
+  [1m[35m (0.2ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS tc5b77c75fcda24d95e3f999fd8cc3a0b
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Assumenda totam a optio fuga."], ["created_at", "2015-01-19 16:24:08.432688"], ["post_id", 5], ["updated_at", "2015-01-19 16:24:08.432688"], ["user_id", 4]]
+  [1m[35m (0.2ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t81534b83f45996c69664266607f7ee63
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 23], ["descendant_id", 23], ["generations", 0]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 23]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS te5aac40f1f42bb2460c549d2fd613d6d[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Adipisci et omnis nemo minima."], ["created_at", "2015-01-19 16:24:08.439945"], ["post_id", 6], ["updated_at", "2015-01-19 16:24:08.439945"], ["user_id", 1]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t552ffbeb86fbd63c8ec87e106802b211[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 24], ["descendant_id", 24], ["generations", 0]]
+  [1m[36mComment Load (0.1ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 24]]
+  [1m[35m (0.1ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t8cb668d331f3c7f30619cd29a4a1d35b
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Quos quam enim deleniti tenetur provident."], ["created_at", "2015-01-19 16:24:08.446147"], ["post_id", 7], ["updated_at", "2015-01-19 16:24:08.446147"], ["user_id", 2]]
+  [1m[35m (0.1ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS tdf7e60eb96f0d9b576ee6a8feb7dff5e
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 25], ["descendant_id", 25], ["generations", 0]]
+  [1m[35mComment Load (0.1ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 25]]
+  [1m[36m (0.1ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t20b493ef8cebab1766afbad83e83ff68[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Pariatur nulla nobis reprehenderit ut est quae laboriosam."], ["created_at", "2015-01-19 16:24:08.450815"], ["post_id", 3], ["updated_at", "2015-01-19 16:24:08.450815"], ["user_id", 5]]
+  [1m[36m (0.1ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS tda82017880dc84db00ff64007a452533[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 26], ["descendant_id", 26], ["generations", 0]]
+  [1m[36mComment Load (0.1ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 26]]
+  [1m[35m (0.1ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t4edac0318338a7441900db3ddfbdfeab
+  [1m[36m (0.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Eveniet eius odit nulla sint consequatur."], ["created_at", "2015-01-19 16:24:08.455575"], ["post_id", 5], ["updated_at", "2015-01-19 16:24:08.455575"], ["user_id", 4]]
+  [1m[35m (0.3ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t2e68735bd46d4f78cd140f6c00e961d5
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 27], ["descendant_id", 27], ["generations", 0]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 27]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t5146e2fff49a6b96d2cd36df8cf183da[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Et occaecati soluta possimus sint est quis."], ["created_at", "2015-01-19 16:24:08.463209"], ["post_id", 10], ["updated_at", "2015-01-19 16:24:08.463209"], ["user_id", 5]]
+  [1m[36m (0.4ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t1272ea50209c0d755d7df8dc4feb8d4a[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 28], ["descendant_id", 28], ["generations", 0]]
+  [1m[36mComment Load (2.8ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 28]]
+  [1m[35m (0.3ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t9f2e5582406665f2b3c4bc4574a81618
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Autem aspernatur laborum at optio sequi voluptatem tenetur illum."], ["created_at", "2015-01-19 16:24:08.480518"], ["post_id", 1], ["updated_at", "2015-01-19 16:24:08.480518"], ["user_id", 1]]
+  [1m[35m (0.4ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS ta674216847271a14ec80756444ec11e9
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 29], ["descendant_id", 29], ["generations", 0]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 29]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t7221494f8cdbc477752bca6283f6b132[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Quisquam enim doloribus consequatur illo velit omnis aut repellat."], ["created_at", "2015-01-19 16:24:08.501384"], ["post_id", 6], ["updated_at", "2015-01-19 16:24:08.501384"], ["user_id", 5]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t4fe8a4e238e3d75aad95b368e32d56b7[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 30], ["descendant_id", 30], ["generations", 0]]
+  [1m[36mComment Load (0.4ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 30]]
+  [1m[35m (0.2ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t22d043fbc9334ad6a9842cf16f8afc3a
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Aut asperiores quo fuga deserunt."], ["created_at", "2015-01-19 16:24:08.509017"], ["post_id", 1], ["updated_at", "2015-01-19 16:24:08.509017"], ["user_id", 5]]
+  [1m[35m (0.2ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t1b250eba049c9e3e4d334cd9d32a8e95
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 31], ["descendant_id", 31], ["generations", 0]]
+  [1m[35mComment Load (0.1ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 31]]
+  [1m[36m (0.1ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t263e5723eb9c035b9872cb7603edc57b[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Voluptate aut incidunt et."], ["created_at", "2015-01-19 16:24:08.514596"], ["post_id", 5], ["updated_at", "2015-01-19 16:24:08.514596"], ["user_id", 4]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t88bc6131b0b814ef28f440769377cd53[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 32], ["descendant_id", 32], ["generations", 0]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 32]]
+  [1m[35m (0.2ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS tef9cef3185efcf4ca75c8414c5cc5088
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Blanditiis laborum quo quaerat adipisci molestiae."], ["created_at", "2015-01-19 16:24:08.520365"], ["post_id", 9], ["updated_at", "2015-01-19 16:24:08.520365"], ["user_id", 4]]
+  [1m[35m (0.3ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t1643406d71cc44bf233584d8ed381fd2
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 33], ["descendant_id", 33], ["generations", 0]]
+  [1m[35mComment Load (0.4ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 33]]
+  [1m[36m (0.3ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS tc9393fe6f985743eaea4206cec70a782[0m
+  [1m[35m (0.7ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Quidem labore voluptatum ratione rerum."], ["created_at", "2015-01-19 16:24:08.530848"], ["post_id", 2], ["updated_at", "2015-01-19 16:24:08.530848"], ["user_id", 3]]
+  [1m[36m (0.4ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS te5cdb7836ecf50fdcdedb457626684c6[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 34], ["descendant_id", 34], ["generations", 0]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 34]]
+  [1m[35m (0.1ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t2ec11ce4b21ce7e936aa2405115b550a
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Vitae quia recusandae quis minima eum."], ["created_at", "2015-01-19 16:24:08.539809"], ["post_id", 5], ["updated_at", "2015-01-19 16:24:08.539809"], ["user_id", 1]]
+  [1m[35m (0.9ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t5f0deed02205b8ab7a237473ae279098
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 35], ["descendant_id", 35], ["generations", 0]]
+  [1m[35mComment Load (0.4ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 35]]
+  [1m[36m (0.7ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t7b2f99c97182909bf7a92c76786bdb02[0m
+  [1m[35m (0.8ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Iste velit dolor voluptates sunt et eos."], ["created_at", "2015-01-19 16:24:08.553056"], ["post_id", 10], ["updated_at", "2015-01-19 16:24:08.553056"], ["user_id", 2]]
+  [1m[36m (0.3ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS tad7938bbb4b227549582f47b02e8280d[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 36], ["descendant_id", 36], ["generations", 0]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 36]]
+  [1m[35m (0.2ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t889d440b40b56db2c173b3d19075b31f
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Alias ducimus ipsam ratione quasi dolor qui repudiandae rerum."], ["created_at", "2015-01-19 16:24:08.563043"], ["post_id", 1], ["updated_at", "2015-01-19 16:24:08.563043"], ["user_id", 5]]
+  [1m[35m (0.3ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS ted3c8b6a3c693d240092d782ee26c11e
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 37], ["descendant_id", 37], ["generations", 0]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 37]]
+  [1m[36m (0.5ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS te3108b83ea241025ae03495e9afb8518[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Corporis a eveniet deserunt cumque nesciunt praesentium et sint."], ["created_at", "2015-01-19 16:24:08.570926"], ["post_id", 4], ["updated_at", "2015-01-19 16:24:08.570926"], ["user_id", 4]]
+  [1m[36m (0.4ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t05a31453c71b8b591b4123fda314254b[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 38], ["descendant_id", 38], ["generations", 0]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 38]]
+  [1m[35m (0.3ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS tbb20450cbb6fd00cbaca6051c72f7e9a
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Qui unde aliquid aperiam perspiciatis dolorem eos corrupti."], ["created_at", "2015-01-19 16:24:08.581812"], ["post_id", 8], ["updated_at", "2015-01-19 16:24:08.581812"], ["user_id", 4]]
+  [1m[35m (0.4ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS tfe9265663bcec5d94b04317d3ec7e3f1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 39], ["descendant_id", 39], ["generations", 0]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 39]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS tca12204f60346ba4d036b736dea2db9a[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Officia iste eum quis."], ["created_at", "2015-01-19 16:24:08.592390"], ["post_id", 6], ["updated_at", "2015-01-19 16:24:08.592390"], ["user_id", 3]]
+  [1m[36m (0.3ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t43647b122d943883bf3003becb132ab5[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 40], ["descendant_id", 40], ["generations", 0]]
+  [1m[36mComment Load (0.1ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 40]]
+  [1m[35m (0.2ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t0e9e7146e7c1479c89c9c95d891a8196
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Et quis quia eos nemo repudiandae."], ["created_at", "2015-01-19 16:24:08.599325"], ["post_id", 3], ["updated_at", "2015-01-19 16:24:08.599325"], ["user_id", 1]]
+  [1m[35m (0.2ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t17e8963177f4c400cfc73217542e4181
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 41], ["descendant_id", 41], ["generations", 0]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 41]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t7362d0ce26a5ea069045ddf081c1126e[0m
+  [1m[35m (0.6ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Placeat dolores ut aliquid."], ["created_at", "2015-01-19 16:24:08.608256"], ["post_id", 4], ["updated_at", "2015-01-19 16:24:08.608256"], ["user_id", 3]]
+  [1m[36m (0.5ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS tf6afb575e9e3d5bb1dae3d1901ac14ff[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 42], ["descendant_id", 42], ["generations", 0]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 42]]
+  [1m[35m (0.5ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t81cc0a3daa9885f46d1740ce9bd2ee21
+  [1m[36m (0.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Esse incidunt aut voluptatem ut."], ["created_at", "2015-01-19 16:24:08.620319"], ["post_id", 5], ["updated_at", "2015-01-19 16:24:08.620319"], ["user_id", 4]]
+  [1m[35m (0.2ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS tb92a95b14d79bc0d4e4449a6c16effbd
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 43], ["descendant_id", 43], ["generations", 0]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 43]]
+  [1m[36m (0.3ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS te44d175bad33494d2940c166c21ca0b0[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Facilis in at pariatur."], ["created_at", "2015-01-19 16:24:08.628596"], ["post_id", 3], ["updated_at", "2015-01-19 16:24:08.628596"], ["user_id", 4]]
+  [1m[36m (0.1ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS tacc2891348fb80fd38ee765000d84340[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 44], ["descendant_id", 44], ["generations", 0]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 44]]
+  [1m[35m (0.3ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t88362a981c900a7ccaf84010f27f67e9
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Quis aut at incidunt."], ["created_at", "2015-01-19 16:24:08.635553"], ["post_id", 5], ["updated_at", "2015-01-19 16:24:08.635553"], ["user_id", 3]]
+  [1m[35m (0.3ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS t6f933f03cc858dfa9a06921b4cc0afb1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 45], ["descendant_id", 45], ["generations", 0]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 45]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t9414acf73db10cb0b34ef8c5041e2064[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.1ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Quibusdam recusandae occaecati reprehenderit sint quos hic."], ["created_at", "2015-01-19 16:24:08.648021"], ["post_id", 9], ["updated_at", "2015-01-19 16:24:08.648021"], ["user_id", 4]]
+  [1m[36m (0.3ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS tc3a359931211e39845db87510ce93a99[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 46], ["descendant_id", 46], ["generations", 0]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 46]]
+  [1m[35m (0.2ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS t010dacb5c91e004fded1b4f9fc8ab939
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Aut ut ducimus quas doloribus sint voluptatum."], ["created_at", "2015-01-19 16:24:08.658358"], ["post_id", 6], ["updated_at", "2015-01-19 16:24:08.658358"], ["user_id", 1]]
+  [1m[35m (0.2ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS tb8a3e6fee0724c4307392d855a6f168a
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 47], ["descendant_id", 47], ["generations", 0]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 47]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS tf517d65ba339f7861ad473e1a33bade6[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Quia nostrum beatae totam quis."], ["created_at", "2015-01-19 16:24:08.666341"], ["post_id", 2], ["updated_at", "2015-01-19 16:24:08.666341"], ["user_id", 3]]
+  [1m[36m (0.2ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t45e6f8406e2f2bff97848b86321aca9a[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 48], ["descendant_id", 48], ["generations", 0]]
+  [1m[36mComment Load (0.2ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 48]]
+  [1m[35m (0.4ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS td4b1e50fc4a01ac2b1c7e795798c5cca
+  [1m[36m (0.8ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Laborum libero aliquid est numquam facere."], ["created_at", "2015-01-19 16:24:08.675127"], ["post_id", 4], ["updated_at", "2015-01-19 16:24:08.675127"], ["user_id", 2]]
+  [1m[35m (0.3ms)[0m  SELECT pg_try_advisory_lock(1165551366,0) AS td09feec0936ea08d363486ff59f1c5dd
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)[0m  [["ancestor_id", 49], ["descendant_id", 49], ["generations", 0]]
+  [1m[35mComment Load (0.2ms)[0m  SELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC  [["parent_id", 49]]
+  [1m[36m (0.3ms)[0m  [1mSELECT pg_advisory_unlock(1165551366,0) AS t5fda45d122bf453c969867b1be262b2c[0m
+  [1m[35m (0.9ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "comments" ("content", "created_at", "post_id", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["content", "Rem neque et ut autem aliquid."], ["created_at", "2015-01-19 16:24:08.686577"], ["post_id", 1], ["updated_at", "2015-01-19 16:24:08.686577"], ["user_id", 1]]
+  [1m[36m (0.3ms)[0m  [1mSELECT pg_try_advisory_lock(1165551366,0) AS t0294b6d13137561e6d5d7c625e037f98[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "comment_hierarchies" ("ancestor_id", "descendant_id", "generations") VALUES ($1, $2, $3)  [["ancestor_id", 50], ["descendant_id", 50], ["generations", 0]]
+  [1m[36mComment Load (0.3ms)[0m  [1mSELECT "comments".* FROM "comments"  WHERE "comments"."parent_id" = $1  ORDER BY created_at DESC[0m  [["parent_id", 50]]
+  [1m[35m (0.4ms)[0m  SELECT pg_advisory_unlock(1165551366,0) AS tfa19680fb2afe5262182fefb36a1f030
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mUser Exists (7.1ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."user_name" = 'kevin' LIMIT 1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users"  WHERE "users"."email" = 'kevin@kevin.com' LIMIT 1
+  [1m[36mSQL (6.3ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "password_digest", "updated_at", "user_name") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["created_at", "2015-01-19 16:24:08.800968"], ["email", "kevin@kevin.com"], ["password_digest", "$2a$10$avfOBQUSknghhxh9cf3Bv.MDucWP6IFs09CJyjmgF63KR423hU5Hm"], ["updated_at", "2015-01-19 16:24:08.800968"], ["user_name", "kevin"]]
+  [1m[35m (5.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users"  WHERE "users"."user_name" = 'daniel' LIMIT 1
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."email" = 'daniel@daniel.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("created_at", "email", "password_digest", "updated_at", "user_name") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["created_at", "2015-01-19 16:24:08.924995"], ["email", "daniel@daniel.com"], ["password_digest", "$2a$10$jhpcODgGqETkJsnehqWxlOQ7iqyD6DRVRxWMCe2fKPRVqPToAJ7qO"], ["updated_at", "2015-01-19 16:24:08.924995"], ["user_name", "daniel"]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."user_name" = 'brian' LIMIT 1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users"  WHERE "users"."email" = 'brian@brian.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "password_digest", "updated_at", "user_name") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["created_at", "2015-01-19 16:24:09.002874"], ["email", "brian@brian.com"], ["password_digest", "$2a$10$PA8tet1L9YBHO0E4kk/keuGj4Zol50YLBlMCh5zXTXBpLIr3wu7zK"], ["updated_at", "2015-01-19 16:24:09.002874"], ["user_name", "brian"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users"  WHERE "users"."user_name" = 'carl' LIMIT 1
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."email" = 'carl@carl.com' LIMIT 1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("created_at", "email", "password_digest", "updated_at", "user_name") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["created_at", "2015-01-19 16:24:09.083096"], ["email", "carl@carl.com"], ["password_digest", "$2a$10$o00V5rIgLJzm.LBduT7pl.F1vks4ptVLelY5pmcoJiPxbIbx4p5Vq"], ["updated_at", "2015-01-19 16:24:09.083096"], ["user_name", "carl"]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users"  WHERE "users"."user_name" = 'test' LIMIT 1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users"  WHERE "users"."email" = 'test@test.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "password_digest", "updated_at", "user_name") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["created_at", "2015-01-19 16:24:09.161874"], ["email", "test@test.com"], ["password_digest", "$2a$10$/E.h46Taxhs5/b2MOnFXPOdF9Sq8RJVPkqzukDYb2OyKTwnU26FMi"], ["updated_at", "2015-01-19 16:24:09.161874"], ["user_name", "test"]]
+  [1m[35m (0.3ms)[0m  COMMIT
+
+
+Started GET "/" for 127.0.0.1 at 2015-01-19 11:25:05 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by PostsController#index as HTML
+  [1m[35mPost Load (0.8ms)[0m  SELECT "posts".* FROM "posts"
+  [1m[36m (0.6ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[36m (0.4ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 2], ["votable_type", "Post"]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 2], ["votable_type", "Post"]]
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 3], ["votable_type", "Post"]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 3], ["votable_type", "Post"]]
+  [1m[36m (0.5ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 4], ["votable_type", "Post"]]
+  [1m[35m (1.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 4], ["votable_type", "Post"]]
+  [1m[36m (0.4ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 5], ["votable_type", "Post"]]
+  [1m[35m (1.0ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 5], ["votable_type", "Post"]]
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 6], ["votable_type", "Post"]]
+  [1m[35m (2.0ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 6], ["votable_type", "Post"]]
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 7], ["votable_type", "Post"]]
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 7], ["votable_type", "Post"]]
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 8], ["votable_type", "Post"]]
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 8], ["votable_type", "Post"]]
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 9], ["votable_type", "Post"]]
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 9], ["votable_type", "Post"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 10], ["votable_type", "Post"]]
+  [1m[35m (1.7ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 10], ["votable_type", "Post"]]
+  Rendered posts/index.html.erb within layouts/application (86.8ms)
+  Rendered layouts/_nav.erb (0.9ms)
+Completed 200 OK in 697ms (Views: 642.9ms | ActiveRecord: 16.6ms)
+
+
+Started GET "/assets/css/normalize.css?body=1" for 127.0.0.1 at 2015-01-19 11:25:06 -0500
+
+
+Started GET "/assets/font-awesome.css?body=1" for 127.0.0.1 at 2015-01-19 11:25:06 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2015-01-19 11:25:06 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2015-01-19 11:25:06 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2015-01-19 11:25:06 -0500
+
+
+Started GET "/assets/css/foundation.min.css?body=1" for 127.0.0.1 at 2015-01-19 11:25:06 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2015-01-19 11:25:06 -0500
+
+
+Started GET "/assets/js/foundation.min.js?body=1" for 127.0.0.1 at 2015-01-19 11:25:06 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2015-01-19 11:25:06 -0500
+
+
+Started GET "/assets/restaurant.png" for 127.0.0.1 at 2015-01-19 11:25:06 -0500
+
+
+Started GET "/assets/fontawesome-webfont.woff" for 127.0.0.1 at 2015-01-19 11:25:06 -0500
+
+
+Started GET "/login" for 127.0.0.1 at 2015-01-19 11:25:13 -0500
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (20.3ms)
+  Rendered layouts/_nav.erb (0.9ms)
+Completed 200 OK in 78ms (Views: 77.2ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/sessions" for 127.0.0.1 at 2015-01-19 11:25:27 -0500
+Processing by SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"htO+VxdKpdT2BZmRAf9em+FKlZQTJNzbRAzbY852nl0=", "session"=>{"user_name"=>"carl", "password"=>"[FILTERED]"}, "commit"=>"Login"}
+  [1m[36mUser Load (0.8ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."user_name" = 'carl' LIMIT 1[0m
+Redirected to http://localhost:4001/
+Completed 302 Found in 112ms (ActiveRecord: 5.7ms)
+
+
+Started GET "/" for 127.0.0.1 at 2015-01-19 11:25:27 -0500
+Processing by PostsController#index as HTML
+  [1m[35mPost Load (0.7ms)[0m  SELECT "posts".* FROM "posts"
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 1], ["votable_type", "Post"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 2], ["votable_type", "Post"]]
+  [1m[35m (0.6ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 2], ["votable_type", "Post"]]
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 3], ["votable_type", "Post"]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 3], ["votable_type", "Post"]]
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 4], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 4], ["votable_type", "Post"]]
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 5], ["votable_type", "Post"]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 5], ["votable_type", "Post"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 6], ["votable_type", "Post"]]
+  [1m[35m (0.6ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 6], ["votable_type", "Post"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 7], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 7], ["votable_type", "Post"]]
+  [1m[36m (0.5ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 8], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 8], ["votable_type", "Post"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 9], ["votable_type", "Post"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 9], ["votable_type", "Post"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 10], ["votable_type", "Post"]]
+  [1m[35m (0.5ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 10], ["votable_type", "Post"]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered posts/index.html.erb within layouts/application (52.4ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  Rendered layouts/_nav.erb (0.9ms)
+Completed 200 OK in 97ms (Views: 88.8ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/posts/6" for 127.0.0.1 at 2015-01-19 11:25:31 -0500
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"6"}
+  [1m[36mPost Load (0.2ms)[0m  [1mSELECT  "posts".* FROM "posts"  WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 6]]
+  [1m[35mComment Load (2.4ms)[0m  SELECT "comments".* FROM "comments" INNER JOIN (
+  SELECT descendant_id, MAX(generations) as depth
+  FROM "comment_hierarchies"
+  GROUP BY descendant_id
+  HAVING MAX(generations) <= 4
+) AS generation_depth
+  ON "comments".id = generation_depth.descendant_id WHERE "comments"."post_id" = $1  ORDER BY generation_depth.depth, created_at DESC  [["post_id", 6]]
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  [1m[35mUser Load (0.4ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36mActsAsTaggableOn::Tag Load (0.8ms)[0m  [1mSELECT "tags".* FROM "tags" INNER JOIN "taggings" ON "tags"."id" = "taggings"."tag_id" WHERE "taggings"."taggable_id" = $1 AND "taggings"."taggable_type" = $2 AND "taggings"."context" = 'tags'[0m  [["taggable_id", 6], ["taggable_type", "Post"]]
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 47], ["votable_type", "Comment"]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 47], ["votable_type", "Comment"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered comments/_comment.html.erb (11.7ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 40], ["votable_type", "Comment"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 40], ["votable_type", "Comment"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered comments/_comment.html.erb (7.2ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 30], ["votable_type", "Comment"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 30], ["votable_type", "Comment"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered comments/_comment.html.erb (6.1ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 24], ["votable_type", "Comment"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 24], ["votable_type", "Comment"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered comments/_comment.html.erb (7.3ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36m (17.4ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 14], ["votable_type", "Comment"]]
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 14], ["votable_type", "Comment"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered comments/_comment.html.erb (25.8ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  [1m[36m (0.9ms)[0m  [1mSELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 't' AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 6], ["votable_type", "Comment"]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "votes"  WHERE "votes"."votable_id" = $1 AND "votes"."votable_type" = $2 AND "votes"."vote_flag" = 'f' AND "votes"."vote_scope" IS NULL  [["votable_id", 6], ["votable_type", "Comment"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered comments/_comment.html.erb (10.6ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 4]]
+  Rendered posts/show.html.erb within layouts/application (117.2ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 4]]
+  Rendered layouts/_nav.erb (3.0ms)
+Completed 200 OK in 302ms (Views: 174.2ms | ActiveRecord: 36.2ms)

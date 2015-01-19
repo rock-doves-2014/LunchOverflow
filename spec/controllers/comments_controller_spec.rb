@@ -20,10 +20,10 @@ describe CommentsController do
   describe 'POST #create' do
 
     context "with valid attributes" do
-      it "saved the new comment in the database" do
+      xit "saved the new comment in the database" do
       end
 
-      it "redirects to posts#show" do
+      xit "redirects to posts#show" do
       end
     end
 

@@ -1,8 +1,7 @@
 class CommentsController < ApplicationController
 
   def index
-    user = User.find(current_user)
-    @comments = user.comments
+    @comments = current_user.comments
   end
 
   def show
@@ -11,14 +10,21 @@ class CommentsController < ApplicationController
 
   def new
     if session[:user_id]
-      @comment = Comment.new(parent_id: params[:parent_id])
+      @comment = Comment.new(params[:comment])
     else
       redirect_to login_path
     end
   end
 
   def create
-    params[:comment][:user_id] = session[:user_id]
+    # This method needs some love...
+    #
+    # Here are some options: can we move this logic into a model somewhere.
+    # Like:
+    #
+    # Comment.create_for_post(some_parent)
+    #
+    params[:comment][:user_id] = session[:user_id] #changing the inputs is a smell to me...
     post = Post.find(params[:post_id])
     params[:comment][:post_id] = post.id
     if params[:comment][:parent_id].to_i > 0

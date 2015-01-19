@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe SessionsController do
+  # This should be factoryGirled
   let(:user) { {user_name:"bill",email:"123456@123.com",password:"123456"} }
 
   describe '#create' do

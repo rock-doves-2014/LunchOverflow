@@ -1,11 +1,21 @@
 Rails.application.routes.draw do
   root 'posts#index'
   resources :users
-  resources :sessions, :only => [:create]
+
+  # there is a concept of a singular resource
+  # which might make sense here.
+  resources :sessions, :only => [:create, :new, :destroy]
+
+  # Ehm...this is kinda confusing to me.  That `only` up above implies to me
+  # that there's only one action, create, but here you are telling me that
+  # there are acutally two more....is this an error or....which..huh?
   get '/login' => 'sessions#new'
   get '/logout' => 'sessions#destroy'
+
   resources :posts do
     resources :comments
+    # Something fishy about this......but we'll see more once we look at the
+    # models.
     get '/comments/new(/:parent_id)', to: 'comments#new', as: :new_comment
     member do
       put 'upvote', to: 'posts#upvote'
@@ -13,67 +23,15 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :comments do 
+  resources :comments do
     member do
+      # Only put...hm....seems like you are creating a new one of these....it
+      # would seem to me that the right verb is POST?
       put 'upvote', to: 'comments#upvote'
       put 'downvote', to: 'comments#downvote'
     end
   end
 
-  get 'tagged', to: 'posts#tagged' 
-
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+  # Why isn't this in with the posts resources?
+  get 'tagged', to: 'posts#tagged'
 end
