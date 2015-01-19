@@ -17,20 +17,6 @@ describe CommentsController do
     end
   end
 
-  describe 'GET #edit' do
-    it "assigns the requested comment to @comment" do
-      comment = create(:comment)
-      get :edit, id: comment
-      expect(assigns(:comment)).to eq comment
-    end
-
-    it "renders the :edit template" do
-      comment = create(:comment)
-      get :edit, id: contact
-      expect(response).to render_template :edit
-    end
-  end
-
   describe 'POST #create' do
 
     context "with valid attributes" do

@@ -1,0 +1,11 @@
+<div class="small-10 small-centered large-5 large-centered columns">
+  <div class="form-container text-center">
+    <%= form_for(@comment) do |f| %>
+      <%= f.label :say_something, class: "form-input-label" %>
+      <%= f.text_area :content, class: "comment-input-area" %>
+      <%= f.hidden_field :parent_id %>
+      <%= f.submit 'Edit Comment', class: "button radius expand form-button" %>
+    <% end %>
+    <%= link_to 'Return to previous page', post_path(params[:post_id]), class: "return-link off-white" %>
+  </div>
+</div>
