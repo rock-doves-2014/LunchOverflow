@@ -147,22 +147,18 @@
 
 .comment-actions {
   background-color: #A7D7E2;
-  width: 11em;
+  width: 13em;
   padding: 0em 0.5em;
   border-radius: 2px;
   text-align: center;
 }
 
 .delete_comment{
-color:red;
-font-size:11px;
-margin-left:5px;
+  color: red;
 }
 
 .edit_comment{
-color:green;
-margin-left:11px;
-font-size:11px;
+  color: #448E00;
 }
 
 .form-input-area {
