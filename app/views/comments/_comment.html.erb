@@ -12,6 +12,7 @@
     <%= link_to 'reply', "/posts/#{@post.id}/comments/new/#{comment.id}" %>
     <% if current_user == comment.user %>
       <%= link_to 'delete', comment_path(comment), method: :delete, data: { confirm: 'Are you sure you want to delete the comment?' } %>
+      <%= link_to 'edit', "/posts/#{@post.id}/comments/#{comment.id}/edit" %>
     <% end %>
   </div>
 </li>
